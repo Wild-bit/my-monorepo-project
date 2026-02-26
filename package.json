@@ -1,0 +1,34 @@
+{
+  "name": "my-monorepo-project",
+  "version": "1.0.0",
+  "private": true,
+  "description": "全栈 Monorepo 项目 - React + NestJS",
+  "scripts": {
+    "dev": "pnpm --parallel -r dev",
+    "dev:i18n-web": "pnpm --filter @app/i18n-web dev",
+    "dev:i18n-api": "pnpm --filter @app/i18n-api dev",
+    "build": "pnpm -r build",
+    "build:i18n-web": "pnpm --filter @app/i18n-web build",
+    "build:i18n-api": "pnpm --filter @app/i18n-api build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "typecheck": "pnpm -r typecheck",
+    "clean": "pnpm -r clean && rm -rf node_modules"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@9.15.4",
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "prettier": "^3.4.2",
+    "typescript-eslint": "^8.21.0"
+  }
+}

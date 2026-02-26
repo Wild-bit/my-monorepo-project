@@ -1,0 +1,35 @@
+/**
+ * 共享常量
+ */
+
+// HTTP 状态码
+export const HTTP_STATUS = {
+  OK: 200,
+  CREATED: 201,
+  NO_CONTENT: 204,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  CONFLICT: 409,
+  UNPROCESSABLE_ENTITY: 422,
+  INTERNAL_SERVER_ERROR: 500,
+} as const;
+
+// 分页默认值
+export const PAGINATION_DEFAULTS = {
+  PAGE: 1,
+  PAGE_SIZE: 20,
+  MAX_PAGE_SIZE: 100,
+} as const;
+
+// 时间常量（毫秒）
+export const TIME = {
+  SECOND: 1000,
+  MINUTE: 60 * 1000,
+  HOUR: 60 * 60 * 1000,
+  DAY: 24 * 60 * 60 * 1000,
+} as const;
+
+// API 路径前缀
+export const API_PREFIX = '/api/v1';
