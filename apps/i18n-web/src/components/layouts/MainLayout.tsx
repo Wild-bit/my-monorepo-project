@@ -15,7 +15,7 @@ export function MainLayout() {
         </div>
       </Content>
       <Footer className="text-center text-gray-500">
-        My Monorepo Project ©{new Date().getFullYear()}
+        粤ICP备2025426049号
       </Footer>
     </Layout>
   );
