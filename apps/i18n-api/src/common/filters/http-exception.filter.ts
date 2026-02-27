@@ -1,10 +1,4 @@
-import {
-  ExceptionFilter,
-  Catch,
-  ArgumentsHost,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
 import type { ApiErrorResponse } from '@packages/shared';
 
@@ -29,7 +23,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const res = exceptionResponse as Record<string, unknown>;
         message = (res['message'] as string) || exception.message;
         code = (res['code'] as string) || this.getCodeFromStatus(status);
-        
+
         // 处理 class-validator 的错误格式
         if (Array.isArray(res['message'])) {
           message = '参数校验失败';

@@ -91,8 +91,10 @@ pnpm --filter @app/i18n-api db:push
 pnpm dev
 
 # 或分别启动
-pnpm dev:web  # 前端: http://localhost:3000
-pnpm dev:api  # 后端: http://localhost:4000
+pnpm dev:i18n-web  # 前端: http://localhost:3000
+pnpm dev:i18n-api  # 后端: http://localhost:4000
+# 验证端口是否释放
+lsof -nP -iTCP:5433 -sTCP:LISTEN
 ```
 
 ## 📜 可用脚本

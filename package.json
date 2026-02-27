@@ -8,6 +8,7 @@
     "dev:i18n-web": "pnpm --filter @app/i18n-web dev",
     "dev:i18n-api": "pnpm --filter @app/i18n-api dev",
     "build": "pnpm -r build",
+    "build:shared": "pnpm --filter @packages/shared build",
     "build:i18n-web": "pnpm --filter @app/i18n-web build",
     "build:i18n-api": "pnpm --filter @app/i18n-api build",
     "lint": "eslint .",

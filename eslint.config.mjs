@@ -7,7 +7,7 @@ import prettierConfig from 'eslint-config-prettier';
 export default tseslint.config(
   // 全局忽略
   {
-    ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/.next/**'],
+    ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/.next/**', '**/*.cjs'],
   },
 
   // 基础配置

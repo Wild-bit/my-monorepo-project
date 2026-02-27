@@ -32,4 +32,4 @@ export const TIME = {
 } as const;
 
 // API 路径前缀
-export const API_PREFIX = '/api/v1';
+export const API_PREFIX = '/api';

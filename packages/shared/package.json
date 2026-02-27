@@ -2,30 +2,32 @@
   "name": "@packages/shared",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./src/index.ts",
-      "types": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./schemas": {
-      "import": "./src/schemas/index.ts",
-      "types": "./src/schemas/index.ts"
+      "types": "./dist/schemas/index.d.ts",
+      "default": "./dist/schemas/index.js"
     },
     "./types": {
-      "import": "./src/types/index.ts",
-      "types": "./src/types/index.ts"
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/types/index.js"
     },
     "./constants": {
-      "import": "./src/constants/index.ts",
-      "types": "./src/constants/index.ts"
+      "types": "./dist/constants/index.d.ts",
+      "default": "./dist/constants/index.js"
     }
   },
   "scripts": {
+    "build": "tsc -b",
+    "dev": "tsc -b --watch",
     "lint": "eslint src --ext .ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
   },
   "dependencies": {
     "zod": "^3.24.1"
