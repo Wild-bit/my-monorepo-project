@@ -17,7 +17,7 @@ export function HomePage() {
     { name: 'SWR', description: '数据请求' },
     { name: 'React Hook Form + Zod', description: '表单处理与校验' },
   ];
-  const { data: teamList, isLoading, error } = useFetch<TeamListResponse>('/teams', {
+  const { data: teamList } = useFetch<TeamListResponse>('/teams', {
     fetcher: async () => {
       const response = await getTeamListApi({
         page: 1,
