@@ -28,14 +28,14 @@ export class TeamMemberController {
   @Patch('role')
   @ApiOperation({ summary: '修改成员角色' })
   async updateRole(@Body() dto: UpdateMemberRoleDto, @Req() req: FastifyRequest) {
-    const userId = (req as any).user.id;
+    const userId = req.user.id;
     return this.teamMemberService.updateRole(dto, userId);
   }
 
   @Delete('remove')
   @ApiOperation({ summary: '移除团队成员' })
   async removeMember(@Body() dto: RemoveMemberDto, @Req() req: FastifyRequest) {
-    const userId = (req as any).user.id;
+    const userId = req.user.id;
     return this.teamMemberService.removeMember(dto, userId);
   }
 }
