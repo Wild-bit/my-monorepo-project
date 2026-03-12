@@ -18,6 +18,16 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            set -e
+            export HOME=/home/ubuntu
+            export VOLTA_HOME="$HOME/.volta"
+            export PATH="$VOLTA_HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            echo "PATH=$PATH"
+            which node
+            which pnpm
+            which pm2
+            node -v
+            pnpm -v
             cd ~/project/my-monorepo-project
             OLD_LOCK=$(md5sum pnpm-lock.yaml 2>/dev/null || echo "none")
             git pull origin main
@@ -26,8 +36,9 @@ jobs:
               echo "pnpm-lock.yaml changed, installing dependencies..."
               pnpm install --frozen-lockfile
             fi
-            cd apps/i18n-api
-            pnpm db:generate:prod
-            pnpm db:migrate:prod
-            pnpm build
+            pnpm --filter i18n-api db:generate:prod
+            pnpm --filter i18n-api db:migrate:prod
+            pnpm --filter i18n-api build
             pm2 restart i18n-api
+            pm2 save
+            pm2 status
