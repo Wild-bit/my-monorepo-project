@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { CreateTeamRequest } from '@/api/organization/types';
 export function TeamSwitcher() {
-  const { teams, user: currentUser } = useAppStore();
+  const { teams } = useAppStore();
   const { teamSlug } = useParams();
   const navigate = useNavigate();
   const [createTeamModalOpen, setCreateTeamModalOpen] = useState(false);
@@ -25,7 +25,6 @@ export function TeamSwitcher() {
   const onSubmit = async (data: CreateTeamRequest) => {
     try {
       const res = await createTeamApi({
-        ownerId: currentUser?.id ?? '',
         name: data.name,
         description: data.description,
         slug: data.slug,

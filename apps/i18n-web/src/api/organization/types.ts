@@ -20,7 +20,6 @@ export interface CreateTeamRequest {
   name: string;
   slug?: string;
   description?: string;
-  ownerId: string;
 }
 
 export interface ProjectInfo {
@@ -47,6 +46,45 @@ export interface EditTeamRequest {
   id: string;
   name?: string;
   slug?: string;
+}
+
+export interface InviteLinkInfo {
+  id: string;
+  token: string;
+  role: string;
+  status: string;
+  expiresAt: string;
+  createdAt: string;
+  inviter: {
+    id: string;
+    name: string;
+    avatar?: string;
+  };
+}
+
+export interface CreateInviteLinkRequest {
+  teamId: string;
+}
+
+export interface InviteValidateResult {
+  token: string;
+  role: string;
+  team: {
+    id: string;
+    name: string;
+    logo?: string;
+  };
+  inviter: {
+    id: string;
+    name: string;
+    avatar?: string;
+  };
+  expiresAt: string;
+}
+
+export interface AcceptInviteResult {
+  teamId: string;
+  teamSlug: string;
 }
 
 export interface TeamMemberInfo {

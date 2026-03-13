@@ -1,8 +1,12 @@
 import httpClient from '@/services/request';
 import {
+  AcceptInviteResult,
+  CreateInviteLinkRequest,
   CreateProjectRequest,
   CreateTeamRequest,
   EditTeamRequest,
+  InviteLinkInfo,
+  InviteValidateResult,
   ProjectInfo,
   TeamInfo,
   TeamListResponse,
@@ -63,11 +67,37 @@ export const getTeamMembersApi = (teamId: string) => {
 };
 
 export const updateMemberRoleApi = (id: string, role: string) => {
-  return httpClient.patch('/team-members/role', { id, role });
+  return httpClient.post('/team-members/role', { id, role });
 };
 
 export const removeMemberApi = (id: string) => {
-  return httpClient.delete('/team-members/remove', {
-    body: JSON.stringify({ id }),
+  return httpClient.post('/team-members/remove', { id });
+};
+
+export const createInviteLinkApi = (data: CreateInviteLinkRequest) => {
+  return httpClient.post<InviteLinkInfo>('/invite/create', data);
+};
+
+export const getInviteLinksApi = (params: PaginationParams & { teamId: string }) => {
+  return httpClient.get<PaginatedResponse<InviteLinkInfo>>('/invite/list', {
+    params: {
+      teamId: params.teamId,
+      page: params.page,
+      pageSize: params.pageSize,
+    },
   });
+};
+
+export const revokeInviteLinkApi = (id: string) => {
+  return httpClient.post(`/invite/revoke/${id}`, {});
+};
+
+export const validateInviteTokenApi = (token: string) => {
+  return httpClient.get<InviteValidateResult>('/invite/validate', {
+    params: { token },
+  });
+};
+
+export const acceptInviteApi = (token: string) => {
+  return httpClient.post<AcceptInviteResult>('/invite/accept', { token });
 };

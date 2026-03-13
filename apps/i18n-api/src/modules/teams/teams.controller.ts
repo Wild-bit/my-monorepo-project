@@ -6,6 +6,7 @@ import {
   Body,
   Param,
   Query,
+  Req,
   Request,
   NotFoundException,
 } from '@nestjs/common';
@@ -62,8 +63,9 @@ export class TeamsController {
 
   @Post()
   @ApiOperation({ summary: '创建团队' })
-  create(@Body() body: CreateTeamDto) {
-    return this.teamsService.createTeam(body);
+  create(@Body() body: CreateTeamDto, @Req() req: FastifyRequest) {
+    const userId = req.user?.sub as string;
+    return this.teamsService.createTeam({ ...body, ownerId: userId });
   }
 
   @Post(':id')

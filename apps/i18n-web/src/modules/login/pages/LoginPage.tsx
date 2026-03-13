@@ -5,9 +5,11 @@ import { z } from 'zod';
 import { Input, Button, Form, message } from 'antd';
 import { MailOutlined, LockOutlined, EyeInvisibleOutlined, EyeOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { getFeishuAuthUrlApi, loginApi, loginByFeishuApi, resetPasswordApi } from '@/api/auth';
+import { acceptInviteApi } from '@/api/organization';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { setToken } from '@/services/request';
 import { useAppStore } from '@/stores';
+import { CURRENT_TEAM_SLUG_LOCAL_STORAGE_KEY } from '@/contants';
 
 const passwordRule = z
   .string()
@@ -60,6 +62,22 @@ export function LoginPage() {
   });
 
   const hasHandledCode = useRef(false);
+  const inviteToken = searchParams.get('inviteToken');
+
+  const navigateAfterLogin = async () => {
+    if (inviteToken) {
+      try {
+        const res = await acceptInviteApi(inviteToken);
+        message.success('已成功加入团队');
+        localStorage.setItem(CURRENT_TEAM_SLUG_LOCAL_STORAGE_KEY, res.data.teamSlug);
+        navigate('/', { replace: true });
+        return;
+      } catch {
+        message.error('加入团队失败，请重新通过邀请链接加入');
+      }
+    }
+    navigate('/', { replace: true });
+  };
 
   useEffect(() => {
     if (code && !hasHandledCode.current) {
@@ -75,7 +93,7 @@ export function LoginPage() {
       message.success('登录成功');
       setUser(res.data.user);
       setToken(res.data.accessToken);
-      navigate('/', { replace: true });
+      await navigateAfterLogin();
     } catch (error) {
       console.error('Login error:', error);
     } finally {
@@ -101,7 +119,7 @@ export function LoginPage() {
       const res = await loginByFeishuApi(code);
       setUser(res.data.user);
       setToken(res.data.accessToken);
-      navigate('/', { replace: true });
+      await navigateAfterLogin();
     } catch (error) {
       console.error('Feishu login error:', error);
       message.error('飞书登录失败');

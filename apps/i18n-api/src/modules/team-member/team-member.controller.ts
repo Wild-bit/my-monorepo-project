@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Patch, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { TeamMemberService } from './team-member.service';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { FindTeamMembersDto, UpdateMemberRoleDto, RemoveMemberDto } from './dto';
@@ -25,17 +25,17 @@ export class TeamMemberController {
     }));
   }
 
-  @Patch('role')
+  @Post('role')
   @ApiOperation({ summary: '修改成员角色' })
   async updateRole(@Body() dto: UpdateMemberRoleDto, @Req() req: FastifyRequest) {
-    const userId = req.user.id;
+    const userId = req.user?.sub as string;
     return this.teamMemberService.updateRole(dto, userId);
   }
 
-  @Delete('remove')
+  @Post('remove')
   @ApiOperation({ summary: '移除团队成员' })
   async removeMember(@Body() dto: RemoveMemberDto, @Req() req: FastifyRequest) {
-    const userId = req.user.id;
+    const userId = req.user?.sub as string;
     return this.teamMemberService.removeMember(dto, userId);
   }
 }

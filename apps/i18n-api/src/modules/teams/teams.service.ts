@@ -1,5 +1,5 @@
 // CURSOR_RULE_ACTIVE
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
 import slugify from 'slugify';
 import { nanoid } from 'nanoid';
 
@@ -19,9 +19,18 @@ export class TeamsService {
    * @param dto 创建团队参数
    * @param ownerId 团队所有者 ID（从 JWT 获取）
    */
-  async createTeam(dto: CreateTeamDto): Promise<Team> {
+  async createTeam(dto: CreateTeamDto & { ownerId: string }): Promise<Team> {
     // 生成 slug（如果未提供）
     const slug = dto.slug || this.generateSlug(dto.name);
+
+    // 检查用户是否存在
+    const user = await this.prisma.user.findUnique({ where: { id: dto.ownerId } });
+    if (!user) {
+      throw new UnauthorizedException({
+        message: '用户不存在，请重新登录',
+        code: 'TOKEN_INVALID',
+      });
+    }
 
     // 检查 slug 是否已存在
     const existingTeam = await this.prisma.team.findUnique({ where: { slug } });

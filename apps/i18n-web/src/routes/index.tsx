@@ -1,5 +1,5 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
-import { MainLayout } from "../components/layouts/MainLayout";
+import { MainLayout } from "@/components/layouts/MainLayout.tsx";
 import { LoginPage } from "../modules/login/pages/LoginPage";
 import { ErrorPage } from "../modules/error/pages/ErrorPage";
 import { TeamDetailPage } from "@/modules/teams/pages/TeamDetailPage";
@@ -13,6 +13,8 @@ import { SettingsPage } from "@/modules/teams/pages/SettingsPage";
 import { TeamDetailLayout } from "@/modules/teams/components/layouts/TeamDetailLayout";
 import { ProjectBreadcrumb } from "@/modules/projects/components/ProjectBreadcrumb";
 import { AccountSettingPage } from "@/modules/account-setting/pages/AccountSettingPage";
+import { InvitePage } from "@/modules/invite/pages/InvitePage.tsx";
+import { HomePage } from "@/modules/home/pages/HomePage";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <HomePage />,
         loader: async () => {
           const { setTeams } = useAppStore.getState();
           const currentTeamSlug = localStorage.getItem(CURRENT_TEAM_SLUG_LOCAL_STORAGE_KEY);
@@ -56,11 +59,16 @@ const router = createBrowserRouter([
           breadcrumb: () => <TeamSwitcher />,
         },
         loader: async ({ params }) => {
-          const res = await getTeamBySlugApi(params.teamSlug!);
-          useAppStore.getState().setCurrentTeam(res.data);
-          return {
-            currentTeam: res.data,
-          };
+          try {
+            const res = await getTeamBySlugApi(params.teamSlug!);
+            useAppStore.getState().setCurrentTeam(res.data);
+            return {
+              currentTeam: res.data,
+            };
+          } catch {
+            localStorage.removeItem(CURRENT_TEAM_SLUG_LOCAL_STORAGE_KEY);
+            return redirect('/');
+          }
         },
         children: [
           {
@@ -100,6 +108,10 @@ const router = createBrowserRouter([
     path: "/login",
     element: <LoginPage />,
   },
+  {
+    path: '/invite',
+    element: <InvitePage />
+  }
 ]);
 
 export default router;

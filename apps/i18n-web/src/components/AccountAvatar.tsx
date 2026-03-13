@@ -4,6 +4,7 @@ import { removeToken } from '@/services/request';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '@/stores';
 import { UserInfo } from '@/types/common';
+import { CURRENT_TEAM_SLUG_LOCAL_STORAGE_KEY } from '@/contants';
 
 function PopoverConent({ currentUser }: { currentUser: UserInfo | null }) {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ function PopoverConent({ currentUser }: { currentUser: UserInfo | null }) {
       await signOutApi();
       useAppStore.getState().clearUser();
       removeToken();
+      localStorage.removeItem(CURRENT_TEAM_SLUG_LOCAL_STORAGE_KEY);
       navigate('/login', { replace: true });
     } catch (error) {
       console.error('signOut error:', error);

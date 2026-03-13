@@ -2,17 +2,26 @@ import { useEffect, useState } from 'react';
 import { Button, Dropdown, Input, Menu, message, Modal, Skeleton, Space, Table, Tag } from 'antd';
 import type { MenuProps } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { SettingOutlined, TeamOutlined } from '@ant-design/icons';
+import { CopyOutlined, DeleteOutlined, EditOutlined, LinkOutlined, SettingOutlined, StopOutlined, TeamOutlined } from '@ant-design/icons';
 import { useAppStore } from '@/stores';
-import { editTeamInfoApi, getTeamMembersApi, updateMemberRoleApi, removeMemberApi } from '@/api/organization/index';
-import type { TeamMemberInfo } from '@/api/organization/types';
+import {
+  editTeamInfoApi,
+  getTeamMembersApi,
+  updateMemberRoleApi,
+  removeMemberApi,
+  createInviteLinkApi,
+  getInviteLinksApi,
+  revokeInviteLinkApi,
+} from '@/api/organization/index';
+import type { TeamMemberInfo, InviteLinkInfo } from '@/api/organization/types';
 import { UserAvatar } from '@/components/UserAvatar';
 
-type TabKey = 'general' | 'members';
+type TabKey = 'general' | 'members' | 'invites';
 
 const menuItems: MenuProps['items'] = [
   { key: 'general', label: '通用', icon: <SettingOutlined /> },
   { key: 'members', label: '团队成员', icon: <TeamOutlined /> },
+  { key: 'invites', label: '邀请链接', icon: <LinkOutlined /> },
 ];
 
 export function SettingsPage() {
@@ -30,6 +39,12 @@ export function SettingsPage() {
   const [savingSlug, setSavingSlug] = useState(false);
   const [members, setMembers] = useState<TeamMemberInfo[]>([]);
   const [loadingMembers, setLoadingMembers] = useState(false);
+  const [inviteLinks, setInviteLinks] = useState<InviteLinkInfo[]>([]);
+  const [inviteTotal, setInviteTotal] = useState(0);
+  const [invitePage, setInvitePage] = useState(1);
+  const [invitePageSize, setInvitePageSize] = useState(10);
+  const [loadingInvites, setLoadingInvites] = useState(false);
+  const [creatingInvite, setCreatingInvite] = useState(false);
 
   const fetchMembers = () => {
     if (!currentTeam?.id) return;
@@ -38,6 +53,62 @@ export function SettingsPage() {
       .then((res) => setMembers(res.data))
       .catch(() => message.error('获取成员列表失败'))
       .finally(() => setLoadingMembers(false));
+  };
+
+  const fetchInviteLinks = (page = invitePage, pageSize = invitePageSize) => {
+    if (!currentTeam?.id) return;
+    setLoadingInvites(true);
+    getInviteLinksApi({ teamId: currentTeam.id, page, pageSize })
+      .then((res) => {
+        setInviteLinks(res.data.items);
+        setInviteTotal(res.data.total);
+      })
+      .catch(() => message.error('获取邀请链接失败'))
+      .finally(() => setLoadingInvites(false));
+  };
+
+  const handleCreateInvite = async () => {
+    if (!currentTeam?.id || !currentUser?.id) return;
+    setCreatingInvite(true);
+    try {
+      const res = await createInviteLinkApi({
+        teamId: currentTeam.id,
+      });
+      const url = `${window.location.origin}/invite?token=${res.data.token}`;
+      await navigator.clipboard.writeText(url);
+      message.success('邀请链接已生成并复制到剪贴板');
+      setInvitePage(1);
+      fetchInviteLinks(1, invitePageSize);
+    } catch {
+      message.error('生成邀请链接失败');
+    } finally {
+      setCreatingInvite(false);
+    }
+  };
+
+  const handleRevokeInvite = (invite: InviteLinkInfo) => {
+    Modal.confirm({
+      title: '确认撤销邀请',
+      content: '撤销后该链接将无法使用',
+      okText: '撤销',
+      okType: 'danger',
+      cancelText: '取消',
+      onOk: async () => {
+        try {
+          await revokeInviteLinkApi(invite.id);
+          message.success('邀请已撤销');
+          fetchInviteLinks();
+        } catch {
+          message.error('撤销失败');
+        }
+      },
+    });
+  };
+
+  const handleCopyLink = async (token: string) => {
+    const url = `${window.location.origin}/invite?token=${token}`;
+    await navigator.clipboard.writeText(url);
+    message.success('链接已复制');
   };
 
   const handleChangeRole = async (memberId: string, role: string) => {
@@ -82,26 +153,89 @@ export function SettingsPage() {
     if (activeTab === 'members') {
       fetchMembers();
     }
+    if (activeTab === 'invites') {
+      fetchInviteLinks();
+    }
   }, [activeTab, currentTeam?.id]);
 
   const roleColorMap: Record<string, string> = {
     ADMIN: 'red',
     EDITOR: 'blue',
-    VIEWER: 'default',
+    READER: 'default',
   };
 
   const roleLabelMap: Record<string, string> = {
-    ADMIN: '管理员',
-    EDITOR: '编辑者',
-    VIEWER: '查看者',
+    ADMIN: 'Admin',
+    EDITOR: 'Editor',
+    READER: 'Reader',
   };
+
+  const inviteStatusMap: Record<string, { label: string; color: string }> = {
+    ACTIVE: { label: '有效', color: 'green' },
+    USED: { label: '已使用', color: 'default' },
+    EXPIRED: { label: '已过期', color: 'default' },
+    REVOKED: { label: '已撤销', color: 'red' },
+  };
+
+  const inviteColumns: ColumnsType<InviteLinkInfo> = [
+    {
+      title: '邀请人',
+      render: (_: unknown, record: InviteLinkInfo) => (
+        <div className="flex flex-col items-center gap-1">
+          <UserAvatar avatar={record.inviter.avatar} name={record.inviter.name} />
+          <span className="text-xs text-slate-500">{record.inviter.name}</span>
+        </div>
+      ),
+    },
+    {
+      title: '被邀请角色',
+      dataIndex: 'role',
+      render: (role: string) => (
+        <Tag color={roleColorMap[role] || 'default'}>{roleLabelMap[role] || role}</Tag>
+      ),
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      render: (status: string) => {
+        const info = inviteStatusMap[status] || { label: status, color: 'default' };
+        return <Tag color={info.color}>{info.label}</Tag>;
+      },
+    },
+    {
+      title: '过期时间',
+      dataIndex: 'expiresAt',
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createdAt',
+    },
+    {
+      title: '操作',
+      render: (_: unknown, record: InviteLinkInfo) => (
+        <Space>
+          {record.status === 'ACTIVE' && (
+            <>
+              <Button size="small" icon={<CopyOutlined />} onClick={() => handleCopyLink(record.token)}>
+                复制链接
+              </Button>
+              <Button size="small" danger icon={<StopOutlined />} onClick={() => handleRevokeInvite(record)}>
+                撤销
+              </Button>
+            </>
+          )}
+        </Space>
+      ),
+    },
+  ];
 
   const memberColumns: ColumnsType<TeamMemberInfo> = [
     {
       title: '头像',
       dataIndex: ['user', 'avatar'],
-      render: (value: string) => {
-        return <UserAvatar avatar={value} />
+      width: 60,
+      render: (value: string, recode: TeamMemberInfo) => {
+        return <UserAvatar avatar={value} name={recode.user.name} />
       }
     },
     {
@@ -119,7 +253,7 @@ export function SettingsPage() {
       render: (role: string, record: TeamMemberInfo) => {
         const isRecordOwner = record.user.id === currentTeam?.ownerId;
         if (isRecordOwner) {
-          return <Tag color="gold">所有者</Tag>;
+          return <Tag color="gold">Owner</Tag>;
         }
         return <Tag color={roleColorMap[role] || 'default'}>{roleLabelMap[role] || role}</Tag>;
       },
@@ -138,9 +272,9 @@ export function SettingsPage() {
         const disabled = !canOperate(record);
 
         const roleOptions = [
-          { key: 'ADMIN', label: '管理员' },
-          { key: 'EDITOR', label: '编辑者' },
-          { key: 'VIEWER', label: '查看者' },
+          { key: 'ADMIN', label: 'Admin' },
+          { key: 'EDITOR', label: 'Editor' },
+          { key: 'READER', label: 'Reader' },
         ].filter((item) => {
           if (item.key === record.role) return false;
           if (item.key === 'ADMIN' && !isOwner) return false;
@@ -156,9 +290,9 @@ export function SettingsPage() {
                 onClick: ({ key }) => handleChangeRole(record.id, key),
               }}
             >
-              <Button size="small" disabled={disabled}>修改角色</Button>
+              <Button size="small" icon={<EditOutlined />} disabled={disabled}>修改角色</Button>
             </Dropdown>
-            <Button size="small" danger disabled={disabled} onClick={() => handleRemoveMember(record)}>
+            <Button size="small" danger icon={<DeleteOutlined />} disabled={disabled} onClick={() => handleRemoveMember(record)}>
               移除
             </Button>
           </Space>
@@ -326,6 +460,47 @@ export function SettingsPage() {
                   rowKey="id"
                   pagination={false}
                   size="middle"
+                />
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'invites' && (
+          <div className="border border-slate-200 rounded-lg overflow-hidden">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-xl font-bold text-slate-900 mb-1">邀请链接</h2>
+                  <p className="text-sm text-slate-500">生成邀请链接，发送给被邀请者加入团队</p>
+                </div>
+                {(isOwner || currentMemberRole() === 'ADMIN') && (
+                  <Button type="primary" loading={creatingInvite} onClick={handleCreateInvite}>
+                    生成邀请链接
+                  </Button>
+                )}
+              </div>
+              {loadingInvites ? (
+                <Skeleton active paragraph={{ rows: 2 }} />
+              ) : (
+                <Table
+                  columns={inviteColumns}
+                  dataSource={inviteLinks}
+                  rowKey="id"
+                  size="middle"
+                  locale={{ emptyText: '暂无邀请链接' }}
+                  pagination={{
+                    current: invitePage,
+                    pageSize: invitePageSize,
+                    total: inviteTotal,
+                    showTotal: (total) => `共 ${total} 条`,
+                    showSizeChanger: true,
+                    onChange: (page, pageSize) => {
+                      setInvitePage(page);
+                      setInvitePageSize(pageSize);
+                      fetchInviteLinks(page, pageSize);
+                    },
+                  }}
                 />
               )}
             </div>
