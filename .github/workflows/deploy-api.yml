@@ -6,7 +6,7 @@ on:
     paths:
       - 'apps/i18n-api/**'
       - 'pnpm-lock.yaml'
-      - '.github/workflow/*'
+      - '.github/workflows/*'
 
 jobs:
   deploy:
