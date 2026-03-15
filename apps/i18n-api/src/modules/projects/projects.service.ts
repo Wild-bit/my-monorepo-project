@@ -1,24 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@/prisma/prisma.service';
 import { CreateProjectDto } from './dto';
-import { nanoid } from 'nanoid';
+import { customNanoid } from '@/common/utils/common';
 import { generateUUID } from '@/utils/uuid';
-import { ProjectMemberService } from '@/modules/projectMember/projectMember.service';
 import { Prisma, ProjectRole } from '@/generated/prisma/client';
 import { PaginationQuery } from '@/common/types/pagination.types';
 import { toPaginatedResult, toPaginationOptions } from '@/common/utils/pagination.util';
 
 @Injectable()
 export class ProjectsService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly projectMemberService: ProjectMemberService
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(body: CreateProjectDto, userId: string) {
-    const slug = nanoid(8);
+    const slug = customNanoid()();
 
-    this.prisma.$transaction(async (tx) => {
+    return this.prisma.$transaction(async (tx) => {
       const project = await tx.project.create({
         data: {
           ...body,
@@ -27,10 +23,14 @@ export class ProjectsService {
         },
       });
 
-      await this.projectMemberService.create({
-        projectId: project.id,
-        userId: userId,
-        role: ProjectRole.ADMIN,
+      await tx.projectMember.create({
+        data: {
+          id: generateUUID(),
+          projectId: project.id,
+          userId: userId,
+          role: ProjectRole.ADMIN,
+          joinedAt: new Date(),
+        },
       });
 
       return project;

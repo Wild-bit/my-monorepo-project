@@ -14,10 +14,15 @@ export class ProjectsController {
 
   @Post('create')
   @ApiOperation({ summary: '创建项目' })
-  create(@Body() body: CreateProjectDto, @Req() req: FastifyRequest) {
+  async create(@Body() body: CreateProjectDto, @Req() req: FastifyRequest) {
     const userId = req.user?.sub as string;
     console.log('userId:', userId);
-    return this.projectsService.create(body, userId);
+    const project = await this.projectsService.create(body, userId);
+    return {
+      ...project,
+      createdAt: formatToUTC8Time(project.createdAt),
+      updatedAt: formatToUTC8Time(project.updatedAt),
+    };
   }
 
   @Get('list')

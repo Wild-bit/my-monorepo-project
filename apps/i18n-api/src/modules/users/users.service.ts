@@ -5,7 +5,7 @@ import { LoginFormDataDto } from '@/modules/auth/auth.controller';
 import { generateUUID } from '@/utils/uuid';
 import { TeamRole } from '@/generated/prisma/client';
 import slugify from 'slugify';
-import { nanoid } from 'nanoid';
+import { customNanoid } from '@/common/utils/common';
 import { hash } from 'bcrypt';
 
 @Injectable()
@@ -42,7 +42,7 @@ export class UsersService {
     // 生成团队 slug（基于邮箱前缀或名称 + 随机后缀，确保唯一性）
     const nameOrEmail = body.name || body.email?.split('@')[0] || 'user';
     const baseSlug = slugify(nameOrEmail, { lower: true, strict: true });
-    const slug = `${baseSlug}-${nanoid(8)}`;
+    const slug = `${baseSlug}-${customNanoid()()}`;
     const teamName = `${nameOrEmail} 的团队`;
 
     // 使用事务确保数据一致性

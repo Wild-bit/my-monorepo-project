@@ -197,10 +197,8 @@ model ProjectMember {
 model I18nKey {
   id          String  @id @default(uuid())
   projectId   String  @map("project_id")
-  namespace   String
   key         String
   description String?
-  sourceText  String
 
   project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
@@ -208,7 +206,7 @@ model I18nKey {
   updatedAt        DateTime          @updatedAt @map("updated_at")
   i18Ntranslations I18nTranslation[]
 
-  @@unique([projectId, namespace, key])
+  @@unique([projectId, key])
   @@index([projectId])
   @@map("i18n_keys")
   @@schema("i18n_project_schema")

@@ -45,3 +45,6 @@ export const ERROR_CODE = {
   REFRESH_TOKEN_REVOKED: 'REFRESH_TOKEN_REVOKED',
   REFRESH_TOKEN_NOT_FOUND: 'REFRESH_TOKEN_NOT_FOUND',
 } as const;
+
+export { buildTranslatePrompt } from './prompt';
+export type { TranslatePromptParams } from './prompt';

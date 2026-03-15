@@ -11,27 +11,7 @@ import { CreateProjectModal } from '../components/CreateProjectModal';
 
 const PAGE_SIZE = 12;
 
-const LOCALE_LABEL: Record<string, string> = {
-  'zh-cn': '中文', 'zh-CN': '中文',
-  'zh-tw': '繁体中文', 'zh-TW': '繁体中文',
-  'en': '英语',
-  'ja': '日语',
-  'ko': '韩语',
-  'fr': '法语',
-  'de': '德语',
-  'es': '西班牙语',
-  'pt': '葡萄牙语',
-  'ru': '俄语',
-  'ar': '阿拉伯语',
-  'th': '泰语',
-  'vi': '越南语',
-  'it': '意大利语',
-  'id': '印尼语',
-};
-
-function getLocaleLabel(code: string) {
-  return LOCALE_LABEL[code] || code;
-}
+import { getLocaleLabel } from '@/contants';
 
 function ProjectCardSkeleton() {
   return (

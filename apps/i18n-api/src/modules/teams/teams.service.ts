@@ -1,7 +1,7 @@
 // CURSOR_RULE_ACTIVE
 import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
 import slugify from 'slugify';
-import { nanoid } from 'nanoid';
+import { customNanoid } from '@/common/utils/common';
 
 import { PrismaService } from '@/prisma/prisma.service';
 import { CreateTeamDto, UpdateTeamDto, FindTeamsDto } from './dto';
@@ -89,7 +89,7 @@ export class TeamsService {
    */
   private generateSlug(name: string): string {
     const baseSlug = slugify(name, { lower: true, strict: true });
-    const uniqueSuffix = nanoid(8);
+    const uniqueSuffix = customNanoid()();
     return `${baseSlug}-${uniqueSuffix}`;
   }
 

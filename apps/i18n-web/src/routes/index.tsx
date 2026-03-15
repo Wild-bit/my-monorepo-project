@@ -15,6 +15,7 @@ import { ProjectBreadcrumb } from "@/modules/projects/components/ProjectBreadcru
 import { AccountSettingPage } from "@/modules/account-setting/pages/AccountSettingPage";
 import { InvitePage } from "@/modules/invite/pages/InvitePage.tsx";
 import { HomePage } from "@/modules/home/pages/HomePage";
+import { KeysPage } from "@/modules/projects/pages/keysPage";
 
 const router = createBrowserRouter([
   {
@@ -78,7 +79,7 @@ const router = createBrowserRouter([
           {
             path: ":projectSlug",
             id: "project-detail",
-            element: <div>ProjectDetailPage</div>,
+            element: <KeysPage />,
             loader: async ({ params }) => {
               const project = await getProjectBySlugApi(params.teamSlug!, params.projectSlug!);
               return {
@@ -89,6 +90,19 @@ const router = createBrowserRouter([
               breadcrumb: () => <ProjectBreadcrumb />
             },
           },
+          {
+            path: ":projectSlug/import",
+            element: <div>ImportPage</div>,
+          },
+          {
+            path: ":projectSlug/export",
+            element: <div>ExportPage</div>,
+          },
+          {
+            path: ":projectSlug/settings",
+            element: <div>SettingsPage</div>,
+          },
+
           {
             path: "settings",
             element: <SettingsPage />,

@@ -26,6 +26,7 @@ export class JwtAuthGuard implements CanActivate {
     if (isPublic) return true;
     const request = context.switchToHttp().getRequest<FastifyRequest>();
     const token = this.extractToken(request);
+    console.log('token:', token);
     if (!token) {
       throw new UnauthorizedException({
         message: '未提供认证令牌',

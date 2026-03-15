@@ -5,13 +5,13 @@ import type { MenuProps } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { CURRENT_TEAM_SLUG_LOCAL_STORAGE_KEY } from '@/contants';
 import { IconSvg } from '@/components/IconSvg';
-import { createTeamApi } from '@/api/organization';
+import { createTeamApi, getTeamListApi } from '@/api/organization';
 import { Modal } from 'antd';
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { CreateTeamRequest } from '@/api/organization/types';
 export function TeamSwitcher() {
-  const { teams } = useAppStore();
+  const { teams, setTeams } = useAppStore();
   const { teamSlug } = useParams();
   const navigate = useNavigate();
   const [createTeamModalOpen, setCreateTeamModalOpen] = useState(false);
@@ -30,6 +30,8 @@ export function TeamSwitcher() {
         slug: data.slug,
       });
       console.log(res);
+      const teamsRes = await getTeamListApi();
+      setTeams(teamsRes.data.items)
       setCreateTeamModalOpen(false);
       message.success('创建团队成功');
     } catch (error) {

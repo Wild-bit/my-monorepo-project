@@ -12,6 +12,8 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { UploadModule } from './modules/upload/upload.modules';
 import { TeamMemberModule } from './modules/team-member/team-member.modules';
 import { InviteModules } from './modules/invite/invite.modules';
+import { KeysModule } from './modules/keys/keys.modules';
+import { TranslateModule } from './modules/translate/translate.modules';
 
 const nodeEnv = process.env['NODE_ENV'] || 'development';
 
@@ -31,6 +33,8 @@ const nodeEnv = process.env['NODE_ENV'] || 'development';
     UploadModule,
     TeamMemberModule,
     InviteModules,
+    KeysModule,
+    TranslateModule,
   ],
   providers: [
     {

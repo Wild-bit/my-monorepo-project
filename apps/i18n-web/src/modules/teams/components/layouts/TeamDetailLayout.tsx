@@ -24,23 +24,23 @@ export function TeamDetailLayout() {
 
   const projectItems: MenuProps['items'] = [
     {
-      key: 'keys',
-      label: <Link to="keys">文案</Link>,
+      key: '',
+      label: <Link to={`${projectSlug}`}>文案</Link>,
       icon: <AppstoreOutlined />,
     },
     {
       key: 'import',
-      label: <Link to="import">导入</Link>,
+      label: <Link to={`${projectSlug}/import`}>导入</Link>,
       icon: <ImportOutlined />,
     },
     {
       key: 'export',
-      label: <Link to="export">导出</Link>,
+      label: <Link to={`${projectSlug}/export`}>导出</Link>,
       icon: <ExportOutlined />,
     },
     {
       key: 'settings',
-      label: <Link to="settings">设置</Link>,
+      label: <Link to={`${projectSlug}/settings`}>设置</Link>,
       icon: <SettingOutlined />,
     },
   ];
@@ -54,13 +54,18 @@ export function TeamDetailLayout() {
 
 
   useEffect(() => {
-    const pathName = location.pathname.split('/').pop();
-    if (pathName === 'settings') {
-      setCurrentSelectedKey('settings');
+    const segments = location.pathname.split('/').filter(Boolean);
+    // URL: /:teamSlug/:projectSlug?/:subPage?                                                                                                                                                                                                                                                                                                                
+    if (projectSlug) {
+      // 项目子页面：取 projectSlug 之后的部分                                                                                                                                                                                                                                                                                                                
+      const projectIndex = segments.indexOf(projectSlug);
+      const subPage = segments[projectIndex + 1] || '';
+      setCurrentSelectedKey(subPage);
     } else {
-      setCurrentSelectedKey('projects');
+      const lastSegment = segments[segments.length - 1];
+      setCurrentSelectedKey(lastSegment === 'settings' ? 'settings' : 'projects');
     }
-  }, [location.pathname])
+  }, [location.pathname, projectSlug])
 
 
 

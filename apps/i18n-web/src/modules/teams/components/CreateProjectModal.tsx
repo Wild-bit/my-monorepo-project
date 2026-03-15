@@ -4,24 +4,7 @@ import { z } from 'zod';
 import { Modal, Input, Form, Select, message } from 'antd';
 import { createProjectApi } from '@/api/organization';
 import { useState } from 'react';
-
-const LOCALE_OPTIONS = [
-  { value: 'zh-cn', label: '简体中文 (zh-CN)' },
-  { value: 'zh-tw', label: '繁体中文 (zh-TW)' },
-  { value: 'en', label: 'English (en)' },
-  { value: 'ja', label: '日本語 (ja)' },
-  { value: 'ko', label: '韩语 (ko)' },
-  { value: 'fr', label: '法语 (fr)' },
-  { value: 'de', label: '德语 (de)' },
-  { value: 'es', label: '西班牙语 (es)' },
-  { value: 'pt', label: '葡萄牙语 (pt)' },
-  { value: 'ru', label: '俄语 (ru)' },
-  { value: 'ar', label: '阿拉伯语 (ar)' },
-  { value: 'th', label: '泰语 (th)' },
-  { value: 'vi', label: '越南语 (vi)' },
-  { value: 'it', label: '意大利语 (it)' },
-  { value: 'id', label: '印尼语 (id)' },
-];
+import { LOCALE_OPTIONS } from '@/contants';
 
 const createProjectSchema = z.object({
   name: z
