@@ -92,6 +92,7 @@ export class TranslateService {
       contextKey: dto.key,
       targetList,
     });
+
     const completion = await this.openai.chat.completions.create({
       model: 'qwen-plus',
       messages: [{ role: 'user', content: prompt }],

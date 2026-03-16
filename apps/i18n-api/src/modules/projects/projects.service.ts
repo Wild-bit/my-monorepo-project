@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@/prisma/prisma.service';
-import { CreateProjectDto } from './dto';
+import { CreateProjectDto, EditProjectDto } from './dto';
 import { customNanoid } from '@/common/utils/common';
 import { generateUUID } from '@/utils/uuid';
-import { Prisma, ProjectRole } from '@/generated/prisma/client';
+import { Prisma } from '@/generated/prisma/client';
 import { PaginationQuery } from '@/common/types/pagination.types';
 import { toPaginatedResult, toPaginationOptions } from '@/common/utils/pagination.util';
 
@@ -11,29 +11,15 @@ import { toPaginatedResult, toPaginationOptions } from '@/common/utils/paginatio
 export class ProjectsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(body: CreateProjectDto, userId: string) {
+  async create(body: CreateProjectDto) {
     const slug = customNanoid()();
 
-    return this.prisma.$transaction(async (tx) => {
-      const project = await tx.project.create({
-        data: {
-          ...body,
-          slug,
-          id: generateUUID(),
-        },
-      });
-
-      await tx.projectMember.create({
-        data: {
-          id: generateUUID(),
-          projectId: project.id,
-          userId: userId,
-          role: ProjectRole.ADMIN,
-          joinedAt: new Date(),
-        },
-      });
-
-      return project;
+    return this.prisma.project.create({
+      data: {
+        ...body,
+        slug,
+        id: generateUUID(),
+      },
     });
   }
 
@@ -74,6 +60,11 @@ export class ProjectsService {
     return toPaginatedResult(mapped, total, paginationOptions);
   }
 
+  async getProjectById(id: string) {
+    const project = await this.prisma.project.findUnique({ where: { id } });
+    return project;
+  }
+
   async getProjectBySlug(teamSlug: string, slug: string) {
     const team = await this.prisma.team.findUnique({
       where: { slug: teamSlug },
@@ -88,5 +79,35 @@ export class ProjectsService {
       throw new NotFoundException('项目不存在');
     }
     return project;
+  }
+
+  async editProject(dto: EditProjectDto) {
+    return this.prisma.project.update({
+      where: { id: dto.id },
+      data: {
+        name: dto.name,
+        description: dto.description,
+        targetLanguages: dto.targetLanguages,
+        updatedAt: new Date(),
+      },
+    });
+  }
+
+  async deleteProject(id: string) {
+    return this.prisma.$transaction(async (tx) => {
+      // 查找关于这个项目 的key
+      const keys = await tx.i18nKey.findMany({ where: { projectId: id } });
+      if (keys.length > 0) {
+        for (const key of keys) {
+          // 删除这个key 的翻译
+          await tx.i18nTranslation.deleteMany({ where: { keyId: key.id } });
+        }
+      }
+      // 删除这个项目的key
+      await tx.i18nKey.deleteMany({ where: { projectId: id } });
+      // 删除这个项目
+      await tx.project.delete({ where: { id } });
+      return { message: '项目删除成功' };
+    });
   }
 }

@@ -11,6 +11,7 @@ import {
   TeamInfo,
   TeamListResponse,
   TeamMemberInfo,
+  EditProjectRequest,
 } from './types';
 import { PaginatedResponse, PaginationParams } from '@packages/shared';
 
@@ -100,4 +101,12 @@ export const validateInviteTokenApi = (token: string) => {
 
 export const acceptInviteApi = (token: string) => {
   return httpClient.post<AcceptInviteResult>('/invite/accept', { token });
+};
+
+export const editProjectApi = (data: EditProjectRequest) => {
+  return httpClient.post<ProjectInfo>('/projects/edit', data);
+};
+
+export const deleteProjectApi = (id: string) => {
+  return httpClient.post(`/projects/delete`, { id });
 };

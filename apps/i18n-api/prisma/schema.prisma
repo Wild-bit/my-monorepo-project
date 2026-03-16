@@ -34,15 +34,6 @@ enum InviteStatus {
   @@schema("i18n_project_schema")
 }
 
-// 项目成员角色
-enum ProjectRole {
-  ADMIN // 项目管理员：可管理项目设置和成员
-  EDITOR // 编辑者：可编辑翻译内容
-  READER // 只读
-
-  @@schema("i18n_project_schema")
-}
-
 // ============================================
 // 用户表
 // ============================================
@@ -67,7 +58,6 @@ model User {
   // 关联
   refreshTokens   RefreshToken[]
   teamMembers     TeamMember[]
-  projectMembers  ProjectMember[]
   ownedTeams      Team[]          @relation("TeamOwner")
   invitesSent     InviteLink[]    @relation("InviterRelation")
   invitesAccepted InviteLink[]    @relation("AccepterRelation")
@@ -153,8 +143,7 @@ model Project {
   targetLanguages String[] @default(["en", "zh-CN"]) @map("target_languages") // 目标语言
 
   // 关联
-  members ProjectMember[]
-  keys    I18nKey[]
+  keys I18nKey[]
 
   // 时间戳
   createdAt DateTime @default(now()) @map("created_at")
@@ -163,31 +152,6 @@ model Project {
   @@unique([teamId, slug])
   @@index([teamId])
   @@map("projects")
-  @@schema("i18n_project_schema")
-}
-
-// ============================================
-// 项目成员表（用户-项目 多对多 + 角色）
-// ============================================
-model ProjectMember {
-  id String @id @default(uuid())
-
-  // 关联
-  userId    String  @map("user_id")
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  projectId String  @map("project_id")
-  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  // 角色
-  role ProjectRole @default(READER)
-
-  // 加入时间
-  joinedAt DateTime @default(now()) @map("joined_at")
-
-  // 唯一约束：一个用户在一个项目只能有一个成员记录
-  @@unique([userId, projectId])
-  @@index([projectId])
-  @@map("project_members")
   @@schema("i18n_project_schema")
 }
 

@@ -27,7 +27,6 @@ function ProjectCard({ project, teamSlug }: { project: ProjectInfo; teamSlug: st
   const navigate = useNavigate();
 
   const sourceLabel = getLocaleLabel(project.sourceLocale);
-  const targetLabels = project.targetLanguages.map(getLocaleLabel).join(', ');
 
   return (
     <div
@@ -36,20 +35,33 @@ function ProjectCard({ project, teamSlug }: { project: ProjectInfo; teamSlug: st
         transition-all duration-200 ease-in-out
         hover:bg-slate-50 hover:border-slate-300"
     >
-      <div className="text-[16px] font-semibold text-slate-800 truncate group-hover:text-brand-600 transition-colors duration-200">
-        {project.name}
+      <div className="flex items-center justify-between">
+        <div className="text-[16px] font-semibold text-slate-800 truncate group-hover:text-brand-600 transition-colors duration-200">
+          {project.name}
+        </div>
+        <div className="shrink-0 text-xs text-slate-400 flex items-center gap-1">
+          <UnorderedListOutlined className="text-brand-300" />
+          <span>{project.keyCount} 条</span>
+        </div>
       </div>
 
-      <div className="mt-4 flex items-center gap-1.5 text-sm text-slate-500">
-        <GlobalOutlined className="text-brand-300 shrink-0" />
-        <span className="font-medium text-slate-600">{sourceLabel}</span>
-        <span className="text-slate-300 mx-0.5">&gt;</span>
-        <span className="truncate">{targetLabels}</span>
+      <div className="mt-3 text-sm">
+        <div className="flex items-center gap-1.5 text-slate-500">
+          <GlobalOutlined className="text-brand-300 shrink-0 text-xs" />
+          <span className="text-slate-400 shrink-0">源语言</span>
+          <span className="font-medium text-slate-600">{sourceLabel}</span>
+        </div>
       </div>
 
-      <div className="mt-2.5 flex items-center gap-1.5 text-sm text-slate-500">
-        <UnorderedListOutlined className="text-brand-300 shrink-0" />
-        <span>共 {project.keyCount} 条文案</span>
+      <div className="mt-2.5 flex flex-wrap gap-1.5">
+        {project.targetLanguages.map((lang) => (
+          <span
+            key={lang}
+            className="inline-block px-2 py-0.5 text-xs rounded bg-slate-200/80 text-slate-500"
+          >
+            {getLocaleLabel(lang)}
+          </span>
+        ))}
       </div>
     </div>
   );

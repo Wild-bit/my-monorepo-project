@@ -4,7 +4,7 @@
  */
 
 import { getTeamListApi } from '@/api/organization';
-import { TeamInfo } from '@/api/organization/types';
+import { TeamInfo, ProjectInfo } from '@/api/organization/types';
 import { USER_LOCAL_STORAGE_KEY } from '@/contants';
 import { UserInfo } from '@/types/common';
 import { create } from 'zustand';
@@ -23,8 +23,10 @@ interface AppState {
   isLoading: boolean;
   teams: TeamInfo[];
   currentTeam: TeamInfo | null;
+  currentProject: ProjectInfo | null;
   setTeams: (teams: TeamInfo[]) => void;
   setCurrentTeam: (team: TeamInfo | null) => void;
+  setCurrentProject: (project: ProjectInfo | null) => void;
   updateCurrentTeam: (partial: Partial<TeamInfo>) => void;
   setUser: (user: UserInfo | null) => void;
   updateUser: (partial: Partial<UserInfo>) => void;
@@ -38,6 +40,8 @@ export const useAppStore = create<AppState>((set, get) => ({
   isLoading: false,
   teams: [],
   currentTeam: null,
+  currentProject: null,
+  setCurrentProject: (project) => set({ currentProject: project }),
   setUser: (user) => {
     if (user) {
       localStorage.setItem(USER_LOCAL_STORAGE_KEY, JSON.stringify(user));

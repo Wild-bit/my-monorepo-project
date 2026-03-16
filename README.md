@@ -144,7 +144,7 @@ apps/i18n-api/src/
 
 ## 功能
 
-### 1. 组织 & 项目结构（✅ 必做）
+### 1. 组织 & 项目结构（✅ 已完成）
 
 - Organization
 - Team
@@ -152,13 +152,13 @@ apps/i18n-api/src/
 - 项目支持多语言配置
 - 默认语言（en）
 
-### 2. 登录 & 成员体系
+### 2. 登录 & 成员体系 （ ✅ 已完成）
 
-- 飞书 登录 （✅ 必做 已完成）
-- 邀请成员（通过 email）（✅ 必做 已完成）
-- 登录后自动绑定邀请（✅ 必做 已完成）
-- 成员角色（Admin / Editor / Viewer）（✅ 必做 已完成）
-- JWT 会话管理 双 token（Access + Refresh 双 token）实现（✅ 必做 已完成）
+- 飞书 登录 （✅ 必做）
+- 邀请成员（通过 email）（✅ 必做）
+- 登录后自动绑定邀请（✅ 必做）
+- 成员角色（Admin / Editor / Viewer）（✅ 必做）
+- JWT 会话管理 双 token（Access + Refresh 双 token）实现（✅ 必做）
 
 ```js
 1. 登录 → 发 access + refresh
@@ -168,7 +168,7 @@ apps/i18n-api/src/
 
 - 成员个人信息页（支持上传头像、展示、编辑 个性签名）🧠 可选加分（时间多再做 ✅已完成）
 
-### 3. Key & Translation 管理
+### 3. Key & Translation 管理 （ ✅ 已完成）
 
 - 新增 key（必填：namespace + key + source 文本；可选：描述）（✅ 必做）
 - namespace 支持（✅ 必做）

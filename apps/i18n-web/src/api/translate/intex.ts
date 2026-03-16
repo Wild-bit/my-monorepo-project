@@ -39,6 +39,10 @@ export const editKeyApi = (data: { id: string } & CreateKeyRequest) => {
 /**
  * AI 翻译
  */
-export const aiTranslateApi = (data: { projectId: string; key: string; translations: Record<string, string> }) => {
-  return httpClient.post<{ translations: Record<string, string> }>('/translate/translate', data);
+export const aiTranslateApi = (data: {
+  projectId: string;
+  key: string;
+  translations: Record<string, string>;
+}) => {
+  return httpClient.post<{ translations: Record<string, string> }>('/translate/ai', data);
 };

@@ -62,11 +62,6 @@ export class EditProjectDto {
   @MaxLength(200, { message: '项目描述最多200个字符' })
   description?: string;
 
-  @ApiPropertyOptional({ description: '源语言' })
-  @IsOptional()
-  @IsString()
-  sourceLocale?: string;
-
   @ApiPropertyOptional({ description: '目标语言' })
   @IsOptional()
   @IsArray()

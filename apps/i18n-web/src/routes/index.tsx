@@ -16,6 +16,7 @@ import { AccountSettingPage } from "@/modules/account-setting/pages/AccountSetti
 import { InvitePage } from "@/modules/invite/pages/InvitePage.tsx";
 import { HomePage } from "@/modules/home/pages/HomePage";
 import { KeysPage } from "@/modules/projects/pages/keysPage";
+import { ProjectSettingPage } from "@/modules/projects/pages/settingPage";
 
 const router = createBrowserRouter([
   {
@@ -82,6 +83,7 @@ const router = createBrowserRouter([
             element: <KeysPage />,
             loader: async ({ params }) => {
               const project = await getProjectBySlugApi(params.teamSlug!, params.projectSlug!);
+              useAppStore.getState().setCurrentProject(project.data);
               return {
                 project: project.data,
               };
@@ -93,14 +95,28 @@ const router = createBrowserRouter([
           {
             path: ":projectSlug/import",
             element: <div>ImportPage</div>,
+            handle: {
+              breadcrumb: () => <ProjectBreadcrumb />
+            },
           },
           {
             path: ":projectSlug/export",
             element: <div>ExportPage</div>,
+            handle: {
+              breadcrumb: () => <ProjectBreadcrumb />
+            },
           },
           {
             path: ":projectSlug/settings",
-            element: <div>SettingsPage</div>,
+            element: <ProjectSettingPage />,
+            loader: async ({ params }) => {
+              const project = await getProjectBySlugApi(params.teamSlug!, params.projectSlug!);
+              useAppStore.getState().setCurrentProject(project.data);
+              return { project: project.data };
+            },
+            handle: {
+              breadcrumb: () => <ProjectBreadcrumb />
+            },
           },
 
           {

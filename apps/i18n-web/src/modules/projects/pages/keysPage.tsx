@@ -166,7 +166,7 @@ export function KeysPage() {
               rowKey="id"
               loading={isLoading}
               size="middle"
-              scroll={{ y: 'calc(100vh - 280px)' }}
+              scroll={{ x: '1600px' }}
               pagination={false}
               locale={{
                 emptyText: <Empty title="未找到匹配的 Key" description="尝试更换搜索关键词" variant="v2" />,

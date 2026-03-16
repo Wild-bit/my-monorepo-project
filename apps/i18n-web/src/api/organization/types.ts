@@ -42,6 +42,13 @@ export interface CreateProjectRequest {
   description?: string;
 }
 
+export interface EditProjectRequest {
+  id: string;
+  targetLanguages: string[];
+  name: string;
+  description?: string;
+}
+
 export interface EditTeamRequest {
   id: string;
   name?: string;

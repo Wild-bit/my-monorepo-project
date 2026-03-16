@@ -138,28 +138,10 @@ export class TeamsService {
 
   async deleteTeam(id: string) {
     return this.prisma.$transaction(async (tx) => {
-      // 找到所有项目
-      const projects = await tx.project.findMany({
-        where: { teamId: id },
-        select: { id: true },
-      });
-      const projectIds = projects.map((p) => p.id);
-
-      // 删除项目成员
-      await tx.projectMember.deleteMany({
-        where: {
-          projectId: { in: projectIds },
-        },
-      });
       // 删除项目
       await tx.project.deleteMany({
         where: { teamId: id },
       });
-
-      // 删除邀请链接
-      // await tx.inviteLink.deleteMany({
-      //   where: { teamId: id },
-      // });
 
       // 删除团队成员
       await tx.teamMember.deleteMany({

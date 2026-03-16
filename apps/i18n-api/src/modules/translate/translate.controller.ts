@@ -9,7 +9,7 @@ export class TranslateController {
   constructor(private readonly translateService: TranslateService) {}
 
   @ApiOperation({ summary: 'AI 翻译' })
-  @Post('translate')
+  @Post('ai')
   async translate(@Body() body: TranslateDto) {
     return this.translateService.translate(body);
   }

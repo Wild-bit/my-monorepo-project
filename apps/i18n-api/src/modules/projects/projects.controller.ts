@@ -1,8 +1,15 @@
-import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { CreateProjectDto } from './dto';
-import { FastifyRequest } from 'fastify';
+import { CreateProjectDto, DeleteProjectDto, EditProjectDto } from './dto';
 import { PaginationQuery } from '@/common/types/pagination.types';
 import { formatToUTC8Time } from '@/utils/date';
 
@@ -14,10 +21,8 @@ export class ProjectsController {
 
   @Post('create')
   @ApiOperation({ summary: '创建项目' })
-  async create(@Body() body: CreateProjectDto, @Req() req: FastifyRequest) {
-    const userId = req.user?.sub as string;
-    console.log('userId:', userId);
-    const project = await this.projectsService.create(body, userId);
+  async create(@Body() body: CreateProjectDto) {
+    const project = await this.projectsService.create(body);
     return {
       ...project,
       createdAt: formatToUTC8Time(project.createdAt),
@@ -58,5 +63,24 @@ export class ProjectsController {
       createdAt: formatToUTC8Time(project.createdAt),
       updatedAt: formatToUTC8Time(project.updatedAt),
     };
+  }
+
+  @Post('edit')
+  @ApiOperation({ summary: '编辑项目' })
+  async edit(@Body() body: EditProjectDto) {
+    if (body.targetLanguages && body.targetLanguages.length === 0) {
+      throw new BadRequestException('项目至少需要一个目标语言');
+    }
+    return this.projectsService.editProject(body);
+  }
+
+  @Post('delete')
+  @ApiOperation({ summary: '删除项目' })
+  async delete(@Body() body: DeleteProjectDto) {
+    const project = await this.projectsService.getProjectById(body.id);
+    if (!project) {
+      throw new NotFoundException('项目不存在');
+    }
+    return this.projectsService.deleteProject(body.id);
   }
 }
