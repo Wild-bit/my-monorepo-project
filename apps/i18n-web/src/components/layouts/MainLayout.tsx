@@ -21,7 +21,7 @@ export function MainLayout() {
           </div>
         </div>
       </header>
-      <main className="flex-1 mt-5">
+      <main className="flex-1 mt-5 pb-5">
         <Outlet />
       </main>
     </div>

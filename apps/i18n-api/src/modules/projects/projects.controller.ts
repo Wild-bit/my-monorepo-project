@@ -59,9 +59,9 @@ export class ProjectsController {
   async getProjectBySlug(@Query('teamSlug') teamSlug: string, @Query('slug') slug: string) {
     const project = await this.projectsService.getProjectBySlug(teamSlug, slug);
     return {
-      ...project,
-      createdAt: formatToUTC8Time(project.createdAt),
-      updatedAt: formatToUTC8Time(project.updatedAt),
+      ...project.project,
+      createdAt: formatToUTC8Time(project.project.createdAt),
+      updatedAt: formatToUTC8Time(project.project.updatedAt),
     };
   }
 

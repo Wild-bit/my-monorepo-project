@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { KeysService } from './keys.service';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { CreateKeyDto, EditKeyDto } from './dto/create-key.dto';
+import { FastifyRequest } from 'fastify';
 
 @ApiTags('国际化键')
 @ApiBearerAuth()
@@ -11,8 +12,9 @@ export class KeysController {
 
   @ApiOperation({ summary: '创建国际化键' })
   @Post('create')
-  async create(@Body() body: CreateKeyDto) {
-    return this.keysService.create(body);
+  async create(@Body() body: CreateKeyDto, @Req() req: FastifyRequest) {
+    const userId = req.user?.sub as string;
+    return this.keysService.create(body, userId);
   }
 
   @ApiOperation({ summary: '获取国际化键列表' })
@@ -28,13 +30,15 @@ export class KeysController {
 
   @ApiOperation({ summary: '删除国际化键' })
   @Post('delete')
-  async delete(@Body('id') id: string) {
-    return this.keysService.delete(id);
+  async delete(@Body('id') id: string, @Req() req: FastifyRequest) {
+    const userId = req.user?.sub as string;
+    return this.keysService.delete(id, userId);
   }
 
   @ApiOperation({ summary: '编辑国际化键' })
   @Post('edit')
-  async edit(@Body() body: EditKeyDto) {
-    return this.keysService.edit(body);
+  async edit(@Body() body: EditKeyDto, @Req() req: FastifyRequest) {
+    const userId = req.user?.sub as string;
+    return this.keysService.edit(body, userId);
   }
 }

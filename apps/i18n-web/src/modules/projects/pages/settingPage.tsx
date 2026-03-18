@@ -1,18 +1,32 @@
-import { useState } from 'react';
-import { Button, Input, Menu, message, Modal, Select, Tag } from 'antd';
+import { useEffect, useState } from 'react';
+import { Avatar, Button, Input, Menu, message, Modal, Pagination, Select, Tag } from 'antd';
 import type { MenuProps } from 'antd';
-import { DeleteOutlined, SettingOutlined } from '@ant-design/icons';
+import { DeleteOutlined, HistoryOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { useAppStore } from '@/stores';
 import { editProjectApi, deleteProjectApi } from '@/api/organization/index';
 import { LOCALE_OPTIONS, getLocaleLabel } from '@/contants';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getOperationLogListApi } from '@/api/operation-log';
+import type { OperationLogItem } from '@/api/operation-log/types';
 
-type TabKey = 'general' | 'danger';
+type TabKey = 'general' | 'activity' | 'danger';
 
 const menuItems: MenuProps['items'] = [
   { key: 'general', label: '通用', icon: <SettingOutlined /> },
+  { key: 'activity', label: '操作记录', icon: <HistoryOutlined /> },
   { key: 'danger', label: '危险操作', icon: <DeleteOutlined /> },
 ];
+
+const OPERATION_TYPE_MAP: Record<string, string> = {
+  CREATE_PROJECT: '创建项目',
+  UPDATE_PROJECT: '更新项目',
+  CREATE_KEY: '创建 Key',
+  UPDATE_KEY: '更新 Key',
+  DELETE_KEY: '删除 Key',
+  CREATE_TRANSLATION: '创建翻译',
+  UPDATE_TRANSLATION: '更新翻译',
+  DELETE_TRANSLATION: '删除翻译',
+};
 
 export function ProjectSettingPage() {
   const navigate = useNavigate();
@@ -27,10 +41,34 @@ export function ProjectSettingPage() {
   const [savingName, setSavingName] = useState(false);
   const [savingDesc, setSavingDesc] = useState(false);
   const [savingLangs, setSavingLangs] = useState(false);
+  const [logs, setLogs] = useState<OperationLogItem[]>([]);
+  const [logTotal, setLogTotal] = useState(0);
+  const [logPage, setLogPage] = useState(1);
+  const [logLoading, setLogLoading] = useState(false);
 
   const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
     setActiveTab(key as TabKey);
   };
+
+  const fetchLogs = async (page: number) => {
+    if (!currentProject?.id) return;
+    setLogLoading(true);
+    try {
+      const res = await getOperationLogListApi({ projectId: currentProject.id, page, pageSize: 20 });
+      setLogs(res.data.items);
+      setLogTotal(res.data.total);
+    } catch {
+      message.error('获取操作记录失败');
+    } finally {
+      setLogLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'activity') {
+      fetchLogs(logPage);
+    }
+  }, [activeTab, logPage]);
 
   const handleSaveName = async () => {
     if (!projectName.trim()) {
@@ -234,6 +272,49 @@ export function ProjectSettingPage() {
               </div>
             </div>
           </>
+        )}
+
+        {activeTab === 'activity' && (
+          <div className="border border-slate-200 rounded-lg overflow-hidden">
+            <div className="p-6">
+              <h2 className="text-xl font-bold text-slate-900 mb-4">操作记录</h2>
+              {logLoading ? (
+                <div className="text-center py-8 text-slate-400">加载中...</div>
+              ) : logs.length === 0 ? (
+                <div className="text-center py-8 text-slate-400">暂无操作记录</div>
+              ) : (
+                <div className="space-y-3">
+                  {logs.map((log) => (
+                    <div key={log.id} className="flex items-start gap-3 py-3 border-b border-slate-100 last:border-b-0">
+                      <Avatar size={32} src={log.operator.avatar} icon={<UserOutlined />} className="shrink-0 mt-0.5" />
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm text-slate-700">
+                          <span className="font-medium">{log.operator.name}</span>
+                          <span className="mx-1.5 text-slate-400">{log.operationContent}</span>
+                        </div>
+                        <div className="text-xs text-slate-400 mt-1">
+                          {new Date(log.operationAt).toLocaleString('zh-CN')}
+                        </div>
+                      </div>
+                      <Tag className="shrink-0">{OPERATION_TYPE_MAP[log.operationType] || log.operationType}</Tag>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            {logTotal > 20 && (
+              <div className="px-6 py-3 bg-slate-50 border-t border-slate-200 flex justify-end">
+                <Pagination
+                  current={logPage}
+                  total={logTotal}
+                  pageSize={20}
+                  size="small"
+                  onChange={(p) => setLogPage(p)}
+                  showTotal={(total) => `共 ${total} 条`}
+                />
+              </div>
+            )}
+          </div>
         )}
 
         {activeTab === 'danger' && (

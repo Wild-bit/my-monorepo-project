@@ -73,3 +73,6 @@ export interface FeishuAccessTokenResponse {
   scope: string;
   token_type: string;
 }
+
+/** 嵌套对象类型，叶子节点为字符串，中间节点为子对象 */
+export type NestedObject = { [k: string]: string | NestedObject };

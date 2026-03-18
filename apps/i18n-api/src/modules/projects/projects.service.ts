@@ -74,11 +74,28 @@ export class ProjectsService {
     }
     const project = await this.prisma.project.findFirst({
       where: { teamId: team.id, slug },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        description: true,
+        sourceLocale: true,
+        targetLanguages: true,
+        createdAt: true,
+        updatedAt: true,
+        _count: { select: { keys: true } },
+      },
     });
     if (!project) {
       throw new NotFoundException('项目不存在');
     }
-    return project;
+    const { _count, ...rest } = project;
+    return {
+      project: {
+        ...rest,
+        keyCount: _count.keys,
+      },
+    };
   }
 
   async editProject(dto: EditProjectDto) {

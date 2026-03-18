@@ -130,6 +130,7 @@ export function CreateKeyDrawer({ open, project, editingKey, onClose, onSuccess 
           label="Key 名称"
           name="key"
           rules={[{ required: true, message: '请输入 Key 名称' }]}
+          tooltip="用 . 分隔层级，如 home.title。已有 a.b 时不能再添加 a.b.c"
         >
           <Input placeholder="请输入 Key 名称，例如：home.title" className="font-mono" />
         </Form.Item>

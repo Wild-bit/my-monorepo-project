@@ -14,6 +14,9 @@ import { TeamMemberModule } from './modules/team-member/team-member.modules';
 import { InviteModules } from './modules/invite/invite.modules';
 import { KeysModule } from './modules/keys/keys.modules';
 import { TranslateModule } from './modules/translate/translate.modules';
+import { ExportModule } from './modules/export/export.modules';
+import { ImportModule } from './modules/import/import.module';
+import { OperationLogModule } from './modules/operation-log/operation-log.modules';
 
 const nodeEnv = process.env['NODE_ENV'] || 'development';
 
@@ -35,6 +38,9 @@ const nodeEnv = process.env['NODE_ENV'] || 'development';
     InviteModules,
     KeysModule,
     TranslateModule,
+    ExportModule,
+    ImportModule,
+    OperationLogModule,
   ],
   providers: [
     {
