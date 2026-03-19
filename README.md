@@ -8,7 +8,8 @@
 my-monorepo-project/
 ├── apps/
 │   ├── i18n-web/            # 前端应用 (React + Vite)
-│   └── i18n-api/            # 后端服务 (NestJS + Fastify)
+│   ├── i18n-api/            # 后端服务 (NestJS + Fastify)
+│   └── blob-web/            # 前端应用 （React + Vite）
 ├── packages/
 │   └── shared/              # 共享代码 (types / schemas / constants)
 ├── package.json             # 根目录配置
@@ -62,15 +63,15 @@ my-monorepo-project/
 pnpm install
 ```
 
-### 配置环境变量
+### 配置环境变量（具体变量 可以查看 .env.example）
 
 ```bash
 # 后端环境变量
-cp apps/i18n-api/.env.example apps/i18n-api/.env
+cp apps/i18n-api/.env.development apps/i18n-api/.env
 # 编辑 .env 文件，配置数据库连接
 
 # 前端环境变量
-cp apps/i18n-web/env.example apps/i18n-web/.env
+cp apps/i18n-web/env.development apps/i18n-web/.env
 # 编辑 .env 文件，配置 API 地址等（可选，已有默认值）
 ```
 
@@ -80,8 +81,8 @@ cp apps/i18n-web/env.example apps/i18n-web/.env
 # 生成 Prisma Client
 pnpm --filter @app/i18n-api db:generate
 
-# 同步数据库结构
-pnpm --filter @app/i18n-api db:push
+# 同步数据库结构 生成 迁移文件
+pnpm --filter @app/i18n-api db:migrate
 ```
 
 ### 启动开发服务器
@@ -93,8 +94,9 @@ pnpm dev
 # 或分别启动
 pnpm dev:i18n-web  # 前端: http://localhost:3000
 pnpm dev:i18n-api  # 后端: http://localhost:4000
-# 验证端口是否释放
-lsof -nP -iTCP:5433 -sTCP:LISTEN
+
+# 验证端口是否释放 PostgresSql 默认端口为 5432
+lsof -nP -iTCP:5432 -sTCP:LISTEN
 ```
 
 ## 📜 可用脚本
@@ -183,7 +185,7 @@ apps/i18n-api/src/
 - 导入 JSON（source 或指定语言）（✅ 必做）
 - 导出 JSON（一键全语言导出）（✅ 必做）
 
-### 5. 操作记录
+### 5. 操作记录 （✅ 已完成）
 
 - 记录 key 增删改（✅ 必做）
 - 记录翻译修改（✅ 必做）
