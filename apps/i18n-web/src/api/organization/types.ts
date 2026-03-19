@@ -107,3 +107,8 @@ export interface TeamMemberInfo {
     lastLoginAt?: string;
   };
 }
+
+export interface MyRoleResponse {
+  role: 'ADMIN' | 'EDITOR' | 'READER' | null;
+  isOwner: boolean;
+}

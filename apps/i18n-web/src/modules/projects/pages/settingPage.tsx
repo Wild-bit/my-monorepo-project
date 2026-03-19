@@ -31,8 +31,7 @@ const OPERATION_TYPE_MAP: Record<string, string> = {
 export function ProjectSettingPage() {
   const navigate = useNavigate();
   const { projectSlug, teamSlug } = useParams();
-  const { currentProject, setCurrentProject, currentTeam, user: currentUser } = useAppStore();
-  const isOwner = currentTeam?.ownerId === currentUser?.id;
+  const { currentProject, setCurrentProject, currentTeam, canEdit, canAdmin } = useAppStore();
 
   const [activeTab, setActiveTab] = useState<TabKey>('general');
   const [projectName, setProjectName] = useState(currentProject?.name || '');
@@ -185,7 +184,7 @@ export function ProjectSettingPage() {
               </div>
               <div className="px-6 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
                 <span className="text-sm text-slate-400">最多 32 个字符</span>
-                <Button type="primary" loading={savingName} onClick={handleSaveName}>
+                <Button type="primary" loading={savingName} onClick={handleSaveName} disabled={!canEdit()}>
                   保存
                 </Button>
               </div>
@@ -228,7 +227,7 @@ export function ProjectSettingPage() {
               </div>
               <div className="px-6 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
                 <span className="text-sm text-slate-400">最多 200 个字符</span>
-                <Button type="primary" loading={savingDesc} onClick={handleSaveDesc}>
+                <Button type="primary" loading={savingDesc} onClick={handleSaveDesc} disabled={!canEdit()}>
                   保存
                 </Button>
               </div>
@@ -266,7 +265,7 @@ export function ProjectSettingPage() {
               </div>
               <div className="px-6 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
                 <span className="text-sm text-slate-400">已选择 {targetLanguages.length} 种语言</span>
-                <Button type="primary" loading={savingLangs} onClick={handleSaveLangs}>
+                <Button type="primary" loading={savingLangs} onClick={handleSaveLangs} disabled={!canEdit()}>
                   保存
                 </Button>
               </div>
@@ -330,7 +329,7 @@ export function ProjectSettingPage() {
                 danger
                 type="primary"
                 onClick={handleDeleteProject}
-                disabled={!isOwner}
+                disabled={!canAdmin()}
               >
                 删除项目
               </Button>

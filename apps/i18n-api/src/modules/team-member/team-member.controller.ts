@@ -4,12 +4,20 @@ import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { FindTeamMembersDto, UpdateMemberRoleDto, RemoveMemberDto } from './dto';
 import { formatToUTC8Time } from '@/utils/date';
 import { FastifyRequest } from 'fastify';
+import { Roles } from '@/common/decorators/roles.decorator';
 
 @ApiTags('团队成员')
 @ApiBearerAuth()
 @Controller('team-members')
 export class TeamMemberController {
   constructor(private readonly teamMemberService: TeamMemberService) {}
+
+  @Get('my-role')
+  @ApiOperation({ summary: '获取当前用户在团队中的角色' })
+  async getMyRole(@Query('teamId') teamId: string, @Req() req: FastifyRequest) {
+    const userId = req.user?.sub as string;
+    return this.teamMemberService.getMyRole(teamId, userId);
+  }
 
   @Get('list')
   @ApiOperation({ summary: '查询团队所有成员' })
@@ -26,6 +34,7 @@ export class TeamMemberController {
   }
 
   @Post('role')
+  @Roles('ADMIN')
   @ApiOperation({ summary: '修改成员角色' })
   async updateRole(@Body() dto: UpdateMemberRoleDto, @Req() req: FastifyRequest) {
     const userId = req.user?.sub as string;
@@ -33,6 +42,7 @@ export class TeamMemberController {
   }
 
   @Post('remove')
+  @Roles('ADMIN')
   @ApiOperation({ summary: '移除团队成员' })
   async removeMember(@Body() dto: RemoveMemberDto, @Req() req: FastifyRequest) {
     const userId = req.user?.sub as string;

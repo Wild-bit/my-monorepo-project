@@ -15,6 +15,7 @@ import type { FastifyRequest } from 'fastify';
 import { TeamsService } from './teams.service';
 import { CreateTeamDto, UpdateTeamDto, FindTeamsDto, DeleteTeamDto } from './dto';
 import { formatToUTC8Time } from '@/utils/date';
+import { Roles } from '@/common/decorators/roles.decorator';
 
 @ApiTags('团队')
 @ApiBearerAuth()
@@ -69,12 +70,14 @@ export class TeamsController {
   }
 
   @Post(':id')
+  @Roles('ADMIN')
   @ApiOperation({ summary: '更新团队' })
   update(@Param('id') id: string, @Body() body: UpdateTeamDto) {
     return this.teamsService.updateTeam(id, body);
   }
 
   @Post('delete')
+  @Roles('ADMIN')
   @ApiOperation({ summary: '删除团队' })
   delete(@Body() body: DeleteTeamDto) {
     return this.teamsService.deleteTeam(body.id);

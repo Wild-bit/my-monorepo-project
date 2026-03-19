@@ -7,6 +7,7 @@ import {
   EditTeamRequest,
   InviteLinkInfo,
   InviteValidateResult,
+  MyRoleResponse,
   ProjectInfo,
   TeamInfo,
   TeamListResponse,
@@ -109,4 +110,10 @@ export const editProjectApi = (data: EditProjectRequest) => {
 
 export const deleteProjectApi = (id: string) => {
   return httpClient.post(`/projects/delete`, { id });
+};
+
+export const getMyRoleApi = (teamId: string) => {
+  return httpClient.get<MyRoleResponse>('/team-members/my-role', {
+    params: { teamId },
+  });
 };

@@ -7,6 +7,24 @@ import { TeamRole } from '@/generated/prisma/client';
 export class TeamMemberService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getMyRole(teamId: string, userId: string) {
+    const team = await this.prisma.team.findUnique({
+      where: { id: teamId },
+      select: { ownerId: true },
+    });
+    const isOwner = team?.ownerId === userId;
+
+    const member = await this.prisma.teamMember.findFirst({
+      where: { teamId, userId },
+      select: { role: true },
+    });
+
+    return {
+      role: member?.role || null,
+      isOwner,
+    };
+  }
+
   async findAll(dto: FindTeamMembersDto) {
     return this.prisma.teamMember.findMany({
       where: { teamId: dto.teamId },

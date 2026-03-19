@@ -69,6 +69,7 @@ function ProjectCard({ project, teamSlug }: { project: ProjectInfo; teamSlug: st
 
 export function TeamDetailPage() {
   const currentTeam = useAppStore((s) => s.currentTeam)!;
+  const canEdit = useAppStore((s) => s.canEdit);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
@@ -120,6 +121,7 @@ export function TeamDetailPage() {
             icon={<PlusOutlined />}
             onClick={() => setModalOpen(true)}
             className="cursor-pointer"
+            disabled={!canEdit()}
           >
             创建项目
           </Button>
@@ -145,6 +147,7 @@ export function TeamDetailPage() {
                 icon={<PlusOutlined />}
                 onClick={() => setModalOpen(true)}
                 className="cursor-pointer"
+                disabled={!canEdit()}
               >
                 创建项目
               </Button>

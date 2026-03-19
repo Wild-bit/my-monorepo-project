@@ -3,6 +3,7 @@ import { KeysService } from './keys.service';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { CreateKeyDto, EditKeyDto } from './dto/create-key.dto';
 import { FastifyRequest } from 'fastify';
+import { Roles } from '@/common/decorators/roles.decorator';
 
 @ApiTags('国际化键')
 @ApiBearerAuth()
@@ -11,6 +12,7 @@ export class KeysController {
   constructor(private readonly keysService: KeysService) {}
 
   @ApiOperation({ summary: '创建国际化键' })
+  @Roles('ADMIN', 'EDITOR')
   @Post('create')
   async create(@Body() body: CreateKeyDto, @Req() req: FastifyRequest) {
     const userId = req.user?.sub as string;
@@ -29,6 +31,7 @@ export class KeysController {
   }
 
   @ApiOperation({ summary: '删除国际化键' })
+  @Roles('ADMIN', 'EDITOR')
   @Post('delete')
   async delete(@Body('id') id: string, @Req() req: FastifyRequest) {
     const userId = req.user?.sub as string;
@@ -36,6 +39,7 @@ export class KeysController {
   }
 
   @ApiOperation({ summary: '编辑国际化键' })
+  @Roles('ADMIN', 'EDITOR')
   @Post('edit')
   async edit(@Body() body: EditKeyDto, @Req() req: FastifyRequest) {
     const userId = req.user?.sub as string;

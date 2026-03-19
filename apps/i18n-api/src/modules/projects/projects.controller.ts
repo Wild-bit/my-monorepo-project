@@ -12,6 +12,7 @@ import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { CreateProjectDto, DeleteProjectDto, EditProjectDto } from './dto';
 import { PaginationQuery } from '@/common/types/pagination.types';
 import { formatToUTC8Time } from '@/utils/date';
+import { Roles } from '@/common/decorators/roles.decorator';
 
 @ApiTags('项目')
 @ApiBearerAuth()
@@ -20,6 +21,7 @@ export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   @Post('create')
+  @Roles('ADMIN', 'EDITOR')
   @ApiOperation({ summary: '创建项目' })
   async create(@Body() body: CreateProjectDto) {
     const project = await this.projectsService.create(body);
@@ -66,6 +68,7 @@ export class ProjectsController {
   }
 
   @Post('edit')
+  @Roles('ADMIN', 'EDITOR')
   @ApiOperation({ summary: '编辑项目' })
   async edit(@Body() body: EditProjectDto) {
     if (body.targetLanguages && body.targetLanguages.length === 0) {
@@ -75,6 +78,7 @@ export class ProjectsController {
   }
 
   @Post('delete')
+  @Roles('ADMIN')
   @ApiOperation({ summary: '删除项目' })
   async delete(@Body() body: DeleteProjectDto) {
     const project = await this.projectsService.getProjectById(body.id);

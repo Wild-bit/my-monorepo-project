@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { TranslateService, TranslateDto } from './translate.service';
+import { Roles } from '@/common/decorators/roles.decorator';
 
 @ApiTags('翻译')
 @ApiBearerAuth()
@@ -9,6 +10,7 @@ export class TranslateController {
   constructor(private readonly translateService: TranslateService) {}
 
   @ApiOperation({ summary: 'AI 翻译' })
+  @Roles('ADMIN', 'EDITOR')
   @Post('ai')
   async translate(@Body() body: TranslateDto) {
     return this.translateService.translate(body);

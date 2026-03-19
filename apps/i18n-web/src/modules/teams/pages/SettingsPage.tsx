@@ -25,7 +25,7 @@ const menuItems: MenuProps['items'] = [
 ];
 
 export function SettingsPage() {
-  const { currentTeam, updateCurrentTeam, user: currentUser } = useAppStore();
+  const { currentTeam, updateCurrentTeam, user: currentUser, canAdmin } = useAppStore();
   const isOwner = currentTeam?.ownerId === currentUser?.id;
   const currentMemberRole = () => {
     const me = members.find((m) => m.user.id === currentUser?.id);
@@ -219,9 +219,11 @@ export function SettingsPage() {
               <Button size="small" icon={<CopyOutlined />} onClick={() => handleCopyLink(record.token)}>
                 复制链接
               </Button>
-              <Button size="small" danger icon={<StopOutlined />} onClick={() => handleRevokeInvite(record)}>
-                撤销
-              </Button>
+              {canAdmin() && (
+                <Button size="small" danger icon={<StopOutlined />} onClick={() => handleRevokeInvite(record)}>
+                  撤销
+                </Button>
+              )}
             </>
           )}
         </Space>
@@ -394,7 +396,7 @@ export function SettingsPage() {
               </div>
               <div className="px-6 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
                 <span className="text-sm text-slate-400">最多 12 个字符</span>
-                <Button type="primary" loading={savingName} onClick={handleSaveName}>
+                <Button type="primary" loading={savingName} onClick={handleSaveName} disabled={!canAdmin()}>
                   保存
                 </Button>
               </div>
@@ -423,7 +425,7 @@ export function SettingsPage() {
                 <span className="text-sm text-slate-400">
                   团队标识，最多 24 个字符，只能是大小写字母、数字、下划线和横线
                 </span>
-                <Button type="primary" loading={savingSlug} onClick={handleSaveSlug}>
+                <Button type="primary" loading={savingSlug} onClick={handleSaveSlug} disabled={!canAdmin()}>
                   保存
                 </Button>
               </div>
@@ -438,7 +440,7 @@ export function SettingsPage() {
                 </p>
               </div>
               <div className="px-6 py-3 bg-red-50/50 border-t border-red-200 flex justify-end">
-                <Button danger type="primary" onClick={handleDeleteTeam}>
+                <Button danger type="primary" onClick={handleDeleteTeam} disabled={!canAdmin()}>
                   删除
                 </Button>
               </div>
@@ -474,7 +476,7 @@ export function SettingsPage() {
                   <h2 className="text-xl font-bold text-slate-900 mb-1">邀请链接</h2>
                   <p className="text-sm text-slate-500">生成邀请链接，发送给被邀请者加入团队</p>
                 </div>
-                {(isOwner || currentMemberRole() === 'ADMIN') && (
+                {canAdmin() && (
                   <Button type="primary" loading={creatingInvite} onClick={handleCreateInvite}>
                     生成邀请链接
                   </Button>

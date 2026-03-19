@@ -49,7 +49,7 @@ function countKeys(obj: Record<string, any>): number {
 }
 
 export function ImportPage() {
-  const { currentProject } = useAppStore();
+  const { currentProject, canEdit } = useAppStore();
 
   const [selectedFormat, setSelectedFormat] = useState<FileFormat>('json');
   const [strategy, setStrategy] = useState<ConflictStrategy>('skip');
@@ -269,7 +269,7 @@ export function ImportPage() {
             type="primary"
             icon={<ImportOutlined />}
             loading={importing}
-            disabled={parsedFiles.length === 0}
+            disabled={parsedFiles.length === 0 || !canEdit()}
             onClick={handleImport}
             size="large"
           >

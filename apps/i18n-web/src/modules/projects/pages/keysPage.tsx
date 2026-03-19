@@ -10,6 +10,7 @@ import type { ProjectInfo } from '@/api/organization/types';
 import { Empty } from '@/components/Empty';
 import { CreateKeyDrawer } from '../components/CreateKeyDrawer';
 import { getLocaleLabel } from '@/contants';
+import { useAppStore } from '@/stores';
 
 function ActionPopover({ onEdit, onDelete }: { onEdit: () => void; onDelete: () => void }) {
   const [open, setOpen] = useState(false);
@@ -50,6 +51,7 @@ function ActionPopover({ onEdit, onDelete }: { onEdit: () => void; onDelete: () 
 
 export function KeysPage() {
   const { project } = useRouteLoaderData('project-detail') as { project: ProjectInfo };
+  const canEdit = useAppStore((s) => s.canEdit);
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
@@ -120,12 +122,12 @@ export function KeysPage() {
         return <span className={t?.text ? 'text-slate-700' : 'text-slate-400'}>{t?.text || '-'}</span>;
       },
     })),
-    {
+    ...(canEdit() ? [{
       title: '操作',
       key: 'action',
-      fixed: 'right',
+      fixed: 'right' as const,
       width: 80,
-      render: (_, record) => (
+      render: (_: any, record: KeyInfo) => (
         <ActionPopover
           onEdit={() => {
             setEditingKey(record);
@@ -134,16 +136,16 @@ export function KeysPage() {
           onDelete={() => handleDelete(record)}
         />
       ),
-    },
+    }] : []),
   ];
 
   const hasData = total > 0 || search;
 
-  const createButton = (
+  const createButton = canEdit() ? (
     <Button type="primary" icon={<PlusOutlined />} onClick={() => setDrawerOpen(true)}>
       创建文案
     </Button>
-  );
+  ) : null;
 
   return (
     <div className="p-6 flex-1 flex flex-col">

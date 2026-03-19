@@ -3,7 +3,7 @@
  * 仅用于真正需要全局共享的状态
  */
 
-import { getTeamListApi } from '@/api/organization';
+import { getTeamListApi, getMyRoleApi } from '@/api/organization';
 import { TeamInfo, ProjectInfo } from '@/api/organization/types';
 import { USER_LOCAL_STORAGE_KEY } from '@/contants';
 import { UserInfo } from '@/types/common';
@@ -24,6 +24,8 @@ interface AppState {
   teams: TeamInfo[];
   currentTeam: TeamInfo | null;
   currentProject: ProjectInfo | null;
+  currentRole: 'ADMIN' | 'EDITOR' | 'READER' | null;
+  isOwner: boolean;
   setTeams: (teams: TeamInfo[]) => void;
   setCurrentTeam: (team: TeamInfo | null) => void;
   setCurrentProject: (project: ProjectInfo | null) => void;
@@ -33,6 +35,9 @@ interface AppState {
   clearUser: () => void;
   setLoading: (loading: boolean) => void;
   fetchTeams: () => Promise<void>;
+  fetchMyRole: (teamId: string) => Promise<void>;
+  canEdit: () => boolean;
+  canAdmin: () => boolean;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -41,6 +46,8 @@ export const useAppStore = create<AppState>((set, get) => ({
   teams: [],
   currentTeam: null,
   currentProject: null,
+  currentRole: null,
+  isOwner: false,
   setCurrentProject: (project) => set({ currentProject: project }),
   setUser: (user) => {
     if (user) {
@@ -80,5 +87,24 @@ export const useAppStore = create<AppState>((set, get) => ({
     } catch (error) {
       console.error('fetchTeams error:', error);
     }
+  },
+
+  fetchMyRole: async (teamId: string) => {
+    try {
+      const res = await getMyRoleApi(teamId);
+      set({ currentRole: res.data.role, isOwner: res.data.isOwner });
+    } catch {
+      set({ currentRole: null, isOwner: false });
+    }
+  },
+
+  canEdit: () => {
+    const { currentRole, isOwner } = get();
+    return isOwner || currentRole === 'ADMIN' || currentRole === 'EDITOR';
+  },
+
+  canAdmin: () => {
+    const { currentRole, isOwner } = get();
+    return isOwner || currentRole === 'ADMIN';
   },
 }));

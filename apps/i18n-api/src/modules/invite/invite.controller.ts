@@ -5,12 +5,14 @@ import { CreateInviteLinkDto } from './dto/common.dto';
 import { formatToUTC8Time } from '@/utils/date';
 import { PublicRoute } from '@/common/decorators/publicRoute.decorator';
 import { PaginationQuery } from '@/common/types/pagination.types';
+import { Roles } from '@/common/decorators/roles.decorator';
 
 @Controller('invite')
 export class InviteController {
   constructor(private readonly inviteService: InviteService) {}
 
   @Post('create')
+  @Roles('ADMIN')
   async create(@Body() body: CreateInviteLinkDto, @Req() req: FastifyRequest) {
     const userId = req.user?.sub as string;
     const res = await this.inviteService.generateLink({ ...body, inviteBy: userId });
@@ -40,6 +42,7 @@ export class InviteController {
   }
 
   @Post('revoke/:id')
+  @Roles('ADMIN')
   async revoke(@Param('id') id: string, @Req() req: FastifyRequest) {
     const userId = req.user?.sub as string;
     await this.inviteService.revokeInviteLink(id, userId);
