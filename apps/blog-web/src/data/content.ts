@@ -17,14 +17,14 @@ export const projects = [
   {
     emoji: '🌍',
     title: 'i18n 国际化平台',
-    desc: '一站式多语言管理平台，支持团队协作翻译、自动同步和 API 集成。',
-    tags: ['React', 'Fastify', 'PostgreSQL'],
+    desc: '一站式多语言管理平台，集中管理多语言文案，告别 Excel 混乱时代，在线翻译 & AI 赋能。',
+    tags: ['React', 'Fastify', 'PostgreSQL', 'NestJS', 'Ant Design', 'TailwindCSS'],
   },
   {
-    emoji: '📦',
-    title: 'Monorepo 工程模板',
-    desc: '基于 pnpm workspace 的全栈 monorepo 模板，集成 CI/CD 和代码规范。',
-    tags: ['pnpm', 'Turborepo', 'ESLint'],
+    emoji: '👨‍💻',
+    title: '个人博客',
+    desc: '个人博客，记录个人学习历程，分享技术文章，记录生活点滴，记录工作心得。',
+    tags: ['React', 'TailwindCSS', 'TypeScript', 'Tencent Cloud Pages', 'Markdown'],
   },
   {
     emoji: '🎨',
@@ -34,7 +34,7 @@ export const projects = [
   },
   {
     emoji: '⚡',
-    title: '实时数据分析引擎',
+    title: '基于 Axios 构建的类型安全、模块化的 HTTP 客户端',
     desc: '高并发数据处理管道，支持实时聚合分析和可视化仪表盘。',
     tags: ['Go', 'ClickHouse', 'WebSocket'],
   },
