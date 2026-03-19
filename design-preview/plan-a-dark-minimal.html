@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>方案A - 极简暗黑风</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --surface-hover: #1a1a1a;
+  --border: #222;
+  --text: #e5e5e5;
+  --text-secondary: #737373;
+  --accent: #22d3ee;
+  --accent-dim: rgba(34,211,238,0.1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* Nav */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1rem 2rem;
+  background: rgba(10,10,10,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+nav .logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; }
+nav .logo span { color: var(--accent); }
+nav ul { list-style: none; display: flex; gap: 2rem; }
+nav ul a {
+  font-size: 0.85rem; color: var(--text-secondary);
+  transition: color 0.2s; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase;
+}
+nav ul a:hover { color: var(--text); }
+
+/* Sections */
+section { max-width: 900px; margin: 0 auto; padding: 6rem 2rem; }
+section:first-of-type { padding-top: 10rem; }
+
+.section-label {
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px;
+  color: var(--accent); margin-bottom: 1.5rem; font-weight: 600;
+}
+
+h1 { font-size: 3.5rem; font-weight: 700; letter-spacing: -2px; line-height: 1.1; }
+h2 { font-size: 2rem; font-weight: 600; letter-spacing: -1px; margin-bottom: 2rem; }
+
+/* Hero */
+.hero h1 { margin-bottom: 1.5rem; }
+.hero h1 .highlight { color: var(--accent); }
+.hero p { font-size: 1.15rem; color: var(--text-secondary); max-width: 560px; line-height: 1.8; }
+.hero-links { display: flex; gap: 1rem; margin-top: 2.5rem; }
+.hero-links a {
+  padding: 0.7rem 1.8rem; border-radius: 6px; font-size: 0.85rem; font-weight: 500;
+  transition: all 0.2s;
+}
+.hero-links .primary { background: var(--accent); color: #0a0a0a; }
+.hero-links .primary:hover { opacity: 0.85; }
+.hero-links .secondary { border: 1px solid var(--border); color: var(--text-secondary); }
+.hero-links .secondary:hover { border-color: var(--text-secondary); color: var(--text); }
+
+.tech-stack { display: flex; gap: 0.5rem; margin-top: 3rem; flex-wrap: wrap; }
+.tech-stack span {
+  padding: 0.35rem 0.8rem; border-radius: 4px; font-size: 0.75rem;
+  background: var(--surface); border: 1px solid var(--border); color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Divider */
+.divider { border: none; border-top: 1px solid var(--border); max-width: 900px; margin: 0 auto; }
+
+/* Projects */
+.projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.project-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 1.8rem; transition: all 0.3s; cursor: pointer; position: relative; overflow: hidden;
+}
+.project-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent); opacity: 0; transition: opacity 0.3s;
+}
+.project-card:hover { border-color: #333; transform: translateY(-2px); }
+.project-card:hover::before { opacity: 1; }
+.project-card .tag {
+  display: inline-block; font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 3px;
+  background: var(--accent-dim); color: var(--accent); margin-bottom: 0.8rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+.project-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; letter-spacing: -0.3px; }
+.project-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+.project-card .tech {
+  margin-top: 1rem; display: flex; gap: 0.4rem; flex-wrap: wrap;
+}
+.project-card .tech span {
+  font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 3px;
+  background: rgba(255,255,255,0.04); color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Resume */
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 1px; background: var(--border);
+}
+.timeline-item { position: relative; margin-bottom: 2.5rem; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -2rem; top: 0.5rem;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg);
+}
+.timeline-item .period {
+  font-size: 0.75rem; color: var(--accent); font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 0.3rem;
+}
+.timeline-item h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.2rem; }
+.timeline-item .company { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+.timeline-item p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; }
+
+/* Blog */
+.blog-list { display: flex; flex-direction: column; gap: 1px; }
+.blog-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.2rem 0; border-bottom: 1px solid var(--border);
+  transition: all 0.2s; cursor: pointer;
+}
+.blog-item:hover { padding-left: 1rem; }
+.blog-item:hover h3 { color: var(--accent); }
+.blog-item h3 { font-size: 1rem; font-weight: 500; transition: color 0.2s; }
+.blog-item .meta { display: flex; align-items: center; gap: 1rem; }
+.blog-item .date { font-size: 0.75rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; }
+.blog-item .category {
+  font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 3px;
+  background: var(--surface); color: var(--text-secondary);
+}
+.blog-item .arrow { color: var(--text-secondary); font-size: 1.2rem; opacity: 0; transition: opacity 0.2s; }
+.blog-item:hover .arrow { opacity: 1; }
+
+/* Contact */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.contact-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 1.5rem; display: flex; align-items: center; gap: 1rem;
+  transition: all 0.2s; cursor: pointer;
+}
+.contact-card:hover { border-color: #333; }
+.contact-card .icon {
+  width: 40px; height: 40px; border-radius: 8px;
+  background: var(--accent-dim); display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.contact-card .info .label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+.contact-card .info .value { font-size: 0.9rem; margin-top: 0.2rem; }
+
+/* Footer */
+footer {
+  text-align: center; padding: 3rem 2rem; font-size: 0.8rem;
+  color: var(--text-secondary); border-top: 1px solid var(--border);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  h1 { font-size: 2.2rem; }
+  .projects-grid, .contact-grid { grid-template-columns: 1fr; }
+  nav ul { gap: 1rem; }
+  nav ul a { font-size: 0.75rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">lance<span>.</span>dev</div>
+  <ul>
+    <li><a href="#about">关于</a></li>
+    <li><a href="#projects">项目</a></li>
+    <li><a href="#resume">简历</a></li>
+    <li><a href="#blog">博客</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="about">
+  <div class="section-label">Hello World</div>
+  <h1>我是 <span class="highlight">Lance</span>，<br>全栈开发工程师</h1>
+  <p>专注于构建高性能的 Web 应用和优雅的用户体验。热爱开源，喜欢用代码解决实际问题。</p>
+  <div class="hero-links">
+    <a href="#projects" class="primary">查看项目</a>
+    <a href="#contact" class="secondary">联系我</a>
+  </div>
+  <div class="tech-stack">
+    <span>TypeScript</span>
+    <span>React</span>
+    <span>Vue</span>
+    <span>Node.js</span>
+    <span>Go</span>
+    <span>PostgreSQL</span>
+    <span>Docker</span>
+    <span>AWS</span>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="projects">
+  <div class="section-label">Projects</div>
+  <h2>精选项目</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <span class="tag">Full Stack</span>
+      <h3>i18n 国际化平台</h3>
+      <p>一站式多语言管理平台，支持团队协作翻译、自动同步和 API 集成。</p>
+      <div class="tech"><span>React</span><span>Fastify</span><span>PostgreSQL</span></div>
+    </div>
+    <div class="project-card">
+      <span class="tag">Open Source</span>
+      <h3>Monorepo 工程模板</h3>
+      <p>基于 pnpm workspace 的全栈 monorepo 模板，集成 CI/CD 和代码规范。</p>
+      <div class="tech"><span>pnpm</span><span>Turborepo</span><span>ESLint</span></div>
+    </div>
+    <div class="project-card">
+      <span class="tag">Frontend</span>
+      <h3>组件库 Design System</h3>
+      <p>企业级 React 组件库，包含 50+ 组件，支持主题定制和无障碍访问。</p>
+      <div class="tech"><span>React</span><span>Storybook</span><span>CSS-in-JS</span></div>
+    </div>
+    <div class="project-card">
+      <span class="tag">Backend</span>
+      <h3>实时数据分析引擎</h3>
+      <p>高并发数据处理管道，支持实时聚合分析和可视化仪表盘。</p>
+      <div class="tech"><span>Go</span><span>ClickHouse</span><span>WebSocket</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="resume">
+  <div class="section-label">Resume</div>
+  <h2>工作经历</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="period">2023 — 至今</div>
+      <h3>高级前端工程师</h3>
+      <div class="company">某科技公司</div>
+      <p>负责核心产品前端架构设计，主导微前端改造，性能优化提升 40%。带领 5 人团队完成多个重要项目交付。</p>
+    </div>
+    <div class="timeline-item">
+      <div class="period">2021 — 2023</div>
+      <h3>全栈开发工程师</h3>
+      <div class="company">某互联网公司</div>
+      <p>独立负责多个 B 端产品的全栈开发，设计并实现了公司内部的国际化解决方案。</p>
+    </div>
+    <div class="timeline-item">
+      <div class="period">2019 — 2021</div>
+      <h3>前端开发工程师</h3>
+      <div class="company">某创业公司</div>
+      <p>参与公司核心产品从 0 到 1 的搭建，负责前端技术选型和基础设施建设。</p>
+    </div>
+  </div>
+
+  <h2 style="margin-top: 3rem;">教育背景</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="period">2015 — 2019</div>
+      <h3>计算机科学与技术 · 本科</h3>
+      <div class="company">某大学</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="blog">
+  <div class="section-label">Blog</div>
+  <h2>最新文章</h2>
+  <div class="blog-list">
+    <div class="blog-item">
+      <div>
+        <h3>从零搭建企业级 Monorepo 工程体系</h3>
+        <div class="meta">
+          <span class="date">2025-12-15</span>
+          <span class="category">工程化</span>
+        </div>
+      </div>
+      <span class="arrow">→</span>
+    </div>
+    <div class="blog-item">
+      <div>
+        <h3>深入理解 React Server Components</h3>
+        <div class="meta">
+          <span class="date">2025-11-08</span>
+          <span class="category">React</span>
+        </div>
+      </div>
+      <span class="arrow">→</span>
+    </div>
+    <div class="blog-item">
+      <div>
+        <h3>TypeScript 类型体操实战指南</h3>
+        <div class="meta">
+          <span class="date">2025-10-22</span>
+          <span class="category">TypeScript</span>
+        </div>
+      </div>
+      <span class="arrow">→</span>
+    </div>
+    <div class="blog-item">
+      <div>
+        <h3>WebSocket 实时通信架构设计</h3>
+        <div class="meta">
+          <span class="date">2025-09-14</span>
+          <span class="category">架构</span>
+        </div>
+      </div>
+      <span class="arrow">→</span>
+    </div>
+    <div class="blog-item">
+      <div>
+        <h3>前端性能优化：从指标到实践</h3>
+        <div class="meta">
+          <span class="date">2025-08-30</span>
+          <span class="category">性能</span>
+        </div>
+      </div>
+      <span class="arrow">→</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="contact">
+  <div class="section-label">Contact</div>
+  <h2>联系方式</h2>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="icon">✉</div>
+      <div class="info">
+        <div class="label">Email</div>
+        <div class="value">[email]@example.com</div>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="icon">⟁</div>
+      <div class="info">
+        <div class="label">GitHub</div>
+        <div class="value">github.com/lance</div>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="icon">▦</div>
+      <div class="info">
+        <div class="label">微信</div>
+        <div class="value">lance_dev</div>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="icon">◎</div>
+      <div class="info">
+        <div class="label">位置</div>
+        <div class="value">中国 · 深圳</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Lance. Built with passion & code.</p>
+</footer>
+
+</body>
+</html>

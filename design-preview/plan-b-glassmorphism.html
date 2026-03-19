@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>方案B - 玻璃拟态风</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --glass: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.1);
+  --glass-strong: rgba(255,255,255,0.1);
+  --text: #f0f0f0;
+  --text-dim: rgba(255,255,255,0.5);
+  --purple: #a78bfa;
+  --pink: #f472b6;
+  --blue: #60a5fa;
+  --gradient: linear-gradient(135deg, #a78bfa, #f472b6);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0f0f1a;
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Animated background */
+.bg-effects {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+}
+.bg-effects .orb {
+  position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.3;
+  animation: float 20s ease-in-out infinite;
+}
+.bg-effects .orb:nth-child(1) {
+  width: 500px; height: 500px; background: #7c3aed; top: -10%; left: -10%;
+}
+.bg-effects .orb:nth-child(2) {
+  width: 400px; height: 400px; background: #ec4899; bottom: 10%; right: -5%;
+  animation-delay: -7s; animation-duration: 25s;
+}
+.bg-effects .orb:nth-child(3) {
+  width: 350px; height: 350px; background: #3b82f6; top: 50%; left: 40%;
+  animation-delay: -14s; animation-duration: 30s;
+}
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -40px) scale(1.05); }
+  66% { transform: translate(-20px, 30px) scale(0.95); }
+}
+
+.content { position: relative; z-index: 1; }
+
+a { color: inherit; text-decoration: none; }
+
+/* Nav */
+nav {
+  position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 100;
+  padding: 0.7rem 2rem; border-radius: 50px;
+  background: var(--glass); backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  display: flex; align-items: center; gap: 2.5rem;
+}
+nav .logo { font-weight: 700; font-size: 1rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+nav ul { list-style: none; display: flex; gap: 1.5rem; }
+nav ul a { font-size: 0.8rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+nav ul a:hover { color: var(--text); }
+
+/* Glass card mixin */
+.glass {
+  background: var(--glass); backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border); border-radius: 16px;
+}
+
+section { max-width: 960px; margin: 0 auto; padding: 5rem 2rem; }
+section:first-of-type { padding-top: 10rem; }
+
+.section-tag {
+  display: inline-block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 2px; padding: 0.4rem 1rem; border-radius: 50px; margin-bottom: 1.5rem;
+  background: var(--glass); border: 1px solid var(--glass-border); color: var(--purple);
+}
+
+h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: -2px; line-height: 1.1; }
+h2 { font-size: 2rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 2rem; }
+
+/* Hero */
+.hero { text-align: center; display: flex; flex-direction: column; align-items: center; }
+.hero h1 { margin-bottom: 1.5rem; }
+.hero h1 .grad { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: 1.1rem; color: var(--text-dim); max-width: 520px; }
+
+.hero-avatar {
+  width: 120px; height: 120px; border-radius: 50%; margin-bottom: 2rem;
+  background: var(--gradient); padding: 3px;
+}
+.hero-avatar .inner {
+  width: 100%; height: 100%; border-radius: 50%; background: #0f0f1a;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+}
+
+.hero-btns { display: flex; gap: 1rem; margin-top: 2.5rem; }
+.hero-btns .btn {
+  padding: 0.7rem 2rem; border-radius: 50px; font-size: 0.85rem; font-weight: 600;
+  transition: all 0.3s; cursor: pointer; border: none;
+}
+.hero-btns .btn-primary {
+  background: var(--gradient); color: #fff;
+}
+.hero-btns .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(167,139,250,0.3); }
+.hero-btns .btn-ghost {
+  background: var(--glass); border: 1px solid var(--glass-border); color: var(--text);
+  backdrop-filter: blur(10px);
+}
+.hero-btns .btn-ghost:hover { background: var(--glass-strong); }
+
+.stats {
+  display: flex; gap: 3rem; margin-top: 3.5rem; padding: 1.5rem 3rem; border-radius: 16px;
+  background: var(--glass); border: 1px solid var(--glass-border);
+}
+.stat { text-align: center; }
+.stat .num { font-size: 1.8rem; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.stat .label { font-size: 0.75rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+/* Projects */
+.projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.project-card {
+  padding: 2rem; transition: all 0.3s; cursor: pointer; position: relative; overflow: hidden;
+}
+.project-card:hover { transform: translateY(-4px); border-color: rgba(167,139,250,0.3); }
+.project-card .emoji { font-size: 2rem; margin-bottom: 1rem; }
+.project-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+.project-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.7; }
+.project-card .tags { display: flex; gap: 0.4rem; margin-top: 1rem; flex-wrap: wrap; }
+.project-card .tags span {
+  font-size: 0.65rem; padding: 0.2rem 0.6rem; border-radius: 50px;
+  background: rgba(167,139,250,0.1); color: var(--purple); font-weight: 500;
+}
+
+/* Resume */
+.resume-cards { display: flex; flex-direction: column; gap: 1rem; }
+.resume-card { padding: 1.8rem; display: flex; gap: 1.5rem; align-items: flex-start; }
+.resume-card .dot {
+  width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 0.4rem;
+  background: var(--gradient);
+}
+.resume-card .period { font-size: 0.75rem; color: var(--purple); font-weight: 600; margin-bottom: 0.3rem; }
+.resume-card h3 { font-size: 1.05rem; font-weight: 600; }
+.resume-card .company { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 0.4rem; }
+.resume-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.7; }
+
+/* Skills */
+.skills-wrap { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
+.skill-pill {
+  padding: 0.5rem 1.2rem; border-radius: 50px; font-size: 0.8rem; font-weight: 500;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  transition: all 0.2s;
+}
+.skill-pill:hover { border-color: rgba(167,139,250,0.4); color: var(--purple); }
+
+/* Blog */
+.blog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.blog-card { padding: 1.8rem; transition: all 0.3s; cursor: pointer; }
+.blog-card:hover { transform: translateY(-3px); border-color: rgba(244,114,182,0.3); }
+.blog-card .date { font-size: 0.7rem; color: var(--pink); font-weight: 600; margin-bottom: 0.5rem; }
+.blog-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; line-height: 1.4; }
+.blog-card p { font-size: 0.8rem; color: var(--text-dim); line-height: 1.6; }
+.blog-card .read-more {
+  display: inline-block; margin-top: 1rem; font-size: 0.8rem; color: var(--pink);
+  font-weight: 500; transition: gap 0.2s;
+}
+
+/* Contact */
+.contact-section { text-align: center; }
+.contact-section p { color: var(--text-dim); margin-bottom: 2.5rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+.contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+.contact-link {
+  padding: 0.8rem 1.5rem; border-radius: 50px; display: flex; align-items: center; gap: 0.6rem;
+  font-size: 0.85rem; font-weight: 500; transition: all 0.2s; cursor: pointer;
+}
+.contact-link:hover { transform: translateY(-2px); border-color: rgba(167,139,250,0.4); }
+.contact-link .icon { font-size: 1.1rem; }
+
+/* Footer */
+footer {
+  text-align: center; padding: 3rem 2rem; font-size: 0.8rem; color: var(--text-dim);
+  position: relative; z-index: 1;
+}
+
+@media (max-width: 640px) {
+  h1 { font-size: 2.2rem; }
+  .projects-grid, .blog-grid { grid-template-columns: 1fr; }
+  .stats { flex-direction: column; gap: 1.5rem; }
+  nav { padding: 0.5rem 1.2rem; gap: 1rem; }
+  nav ul { gap: 0.8rem; }
+  nav ul a { font-size: 0.7rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-effects">
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+</div>
+
+<div class="content">
+
+<nav>
+  <div class="logo">Lance</div>
+  <ul>
+    <li><a href="#about">关于</a></li>
+    <li><a href="#projects">项目</a></li>
+    <li><a href="#resume">简历</a></li>
+    <li><a href="#blog">博客</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="about">
+  <div class="hero-avatar"><div class="inner">👨‍💻</div></div>
+  <span class="section-tag">Full Stack Developer</span>
+  <h1>Hi, 我是 <span class="grad">Lance</span></h1>
+  <p>一个热爱技术的全栈开发者，专注于构建美观且高性能的 Web 应用。相信好的代码应该像好的设计一样优雅。</p>
+  <div class="hero-btns">
+    <a href="#projects" class="btn btn-primary">探索项目</a>
+    <a href="#contact" class="btn btn-ghost">联系我</a>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="num">5+</div><div class="label">年经验</div></div>
+    <div class="stat"><div class="num">30+</div><div class="label">完成项目</div></div>
+    <div class="stat"><div class="num">10k+</div><div class="label">代码提交</div></div>
+    <div class="stat"><div class="num">5k+</div><div class="label">博客阅读</div></div>
+  </div>
+</section>
+
+<section id="projects">
+  <div style="text-align:center; margin-bottom: 3rem;">
+    <span class="section-tag">Projects</span>
+    <h2 style="margin-top: 1rem;">精选项目</h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card glass">
+      <div class="emoji">🌍</div>
+      <h3>i18n 国际化平台</h3>
+      <p>一站式多语言管理平台，支持团队协作翻译、自动同步和 API 集成。</p>
+      <div class="tags"><span>React</span><span>Fastify</span><span>PostgreSQL</span></div>
+    </div>
+    <div class="project-card glass">
+      <div class="emoji">📦</div>
+      <h3>Monorepo 工程模板</h3>
+      <p>基于 pnpm workspace 的全栈 monorepo 模板，集成 CI/CD 和代码规范。</p>
+      <div class="tags"><span>pnpm</span><span>Turborepo</span><span>ESLint</span></div>
+    </div>
+    <div class="project-card glass">
+      <div class="emoji">🎨</div>
+      <h3>组件库 Design System</h3>
+      <p>企业级 React 组件库，包含 50+ 组件，支持主题定制和无障碍访问。</p>
+      <div class="tags"><span>React</span><span>Storybook</span><span>CSS-in-JS</span></div>
+    </div>
+    <div class="project-card glass">
+      <div class="emoji">⚡</div>
+      <h3>实时数据分析引擎</h3>
+      <p>高并发数据处理管道，支持实时聚合分析和可视化仪表盘。</p>
+      <div class="tags"><span>Go</span><span>ClickHouse</span><span>WebSocket</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="resume">
+  <div style="text-align:center; margin-bottom: 3rem;">
+    <span class="section-tag">Resume</span>
+    <h2 style="margin-top: 1rem;">工作经历</h2>
+  </div>
+  <div class="resume-cards">
+    <div class="resume-card glass">
+      <div class="dot"></div>
+      <div>
+        <div class="period">2023 — 至今</div>
+        <h3>高级前端工程师</h3>
+        <div class="company">某科技公司</div>
+        <p>负责核心产品前端架构设计，主导微前端改造，性能优化提升 40%。带领 5 人团队完成多个重要项目交付。</p>
+      </div>
+    </div>
+    <div class="resume-card glass">
+      <div class="dot"></div>
+      <div>
+        <div class="period">2021 — 2023</div>
+        <h3>全栈开发工程师</h3>
+        <div class="company">某互联网公司</div>
+        <p>独立负责多个 B 端产品的全栈开发，设计并实现了公司内部的国际化解决方案。</p>
+      </div>
+    </div>
+    <div class="resume-card glass">
+      <div class="dot"></div>
+      <div>
+        <div class="period">2019 — 2021</div>
+        <h3>前端开发工程师</h3>
+        <div class="company">某创业公司</div>
+        <p>参与公司核心产品从 0 到 1 的搭建，负责前端技术选型和基础设施建设。</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top: 3rem;">
+    <h2>技能栈</h2>
+  </div>
+  <div class="skills-wrap" style="justify-content: center;">
+    <span class="skill-pill">JavaScript</span>
+    <span class="skill-pill">TypeScript</span>
+    <span class="skill-pill">React</span>
+    <span class="skill-pill">Vue</span>
+    <span class="skill-pill">Next.js</span>
+    <span class="skill-pill">Node.js</span>
+    <span class="skill-pill">Go</span>
+    <span class="skill-pill">PostgreSQL</span>
+    <span class="skill-pill">Redis</span>
+    <span class="skill-pill">Docker</span>
+    <span class="skill-pill">Kubernetes</span>
+    <span class="skill-pill">AWS</span>
+    <span class="skill-pill">CI/CD</span>
+    <span class="skill-pill">Figma</span>
+  </div>
+</section>
+
+<section id="blog">
+  <div style="text-align:center; margin-bottom: 3rem;">
+    <span class="section-tag">Blog</span>
+    <h2 style="margin-top: 1rem;">最新文章</h2>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-card glass">
+      <div class="date">2025-12-15</div>
+      <h3>从零搭建企业级 Monorepo 工程体系</h3>
+      <p>分享如何使用 pnpm + Turborepo 构建高效的 monorepo 开发体验。</p>
+      <span class="read-more">阅读全文 →</span>
+    </div>
+    <div class="blog-card glass">
+      <div class="date">2025-11-08</div>
+      <h3>深入理解 React Server Components</h3>
+      <p>RSC 的工作原理、使用场景以及与传统 SSR 的区别。</p>
+      <span class="read-more">阅读全文 →</span>
+    </div>
+    <div class="blog-card glass">
+      <div class="date">2025-10-22</div>
+      <h3>TypeScript 类型体操实战指南</h3>
+      <p>从基础到进阶，掌握 TypeScript 高级类型编程技巧。</p>
+      <span class="read-more">阅读全文 →</span>
+    </div>
+    <div class="blog-card glass">
+      <div class="date">2025-09-14</div>
+      <h3>WebSocket 实时通信架构设计</h3>
+      <p>如何设计一个可靠的实时通信系统，处理断线重连和消息可靠性。</p>
+      <span class="read-more">阅读全文 →</span>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-section">
+  <span class="section-tag">Contact</span>
+  <h2 style="margin-top: 1rem;">联系我</h2>
+  <p>如果你有合作意向、技术交流或者只是想打个招呼，欢迎随时联系我。</p>
+  <div class="contact-links">
+    <a class="contact-link glass"><span class="icon">✉️</span> [email]@example.com</a>
+    <a class="contact-link glass"><span class="icon">🐙</span> GitHub</a>
+    <a class="contact-link glass"><span class="icon">💬</span> 微信: lance_dev</a>
+    <a class="contact-link glass"><span class="icon">📍</span> 中国 · 深圳</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Lance. Crafted with ❤️ and code.</p>
+</footer>
+
+</div>
+</body>
+</html>

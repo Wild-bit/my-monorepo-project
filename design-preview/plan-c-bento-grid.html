@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>方案C - Bento Grid 现代风</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #f5f5f0;
+  --card: #fff;
+  --card-hover: #fafaf8;
+  --border: #e8e8e3;
+  --text: #1a1a1a;
+  --text-secondary: #6b6b6b;
+  --accent: #ff6b35;
+  --accent-light: #fff0eb;
+  --green: #22c55e;
+  --green-light: #ecfdf5;
+  --blue: #3b82f6;
+  --blue-light: #eff6ff;
+  --purple: #8b5cf6;
+  --purple-light: #f5f3ff;
+  --radius: 20px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* Nav */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1rem 2rem;
+  background: rgba(245,245,240,0.85);
+  backdrop-filter: blur(20px);
+  display: flex; justify-content: space-between; align-items: center;
+}
+nav .logo { font-weight: 900; font-size: 1.2rem; letter-spacing: -1px; }
+nav .logo span { color: var(--accent); }
+nav ul { list-style: none; display: flex; gap: 2rem; }
+nav ul a { font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; transition: color 0.2s; }
+nav ul a:hover { color: var(--text); }
+nav .cta {
+  padding: 0.5rem 1.2rem; border-radius: 50px; background: var(--text);
+  color: var(--bg); font-size: 0.8rem; font-weight: 600; transition: opacity 0.2s;
+}
+nav .cta:hover { opacity: 0.8; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Hero Bento */
+.hero-bento {
+  padding-top: 7rem; padding-bottom: 2rem;
+}
+.bento-hero-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  transition: all 0.3s;
+}
+.card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+
+/* Hero main card */
+.hero-main {
+  grid-row: 1 / 3;
+  padding: 3rem;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.hero-main .greeting {
+  font-size: 0.8rem; font-weight: 600; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem;
+}
+.hero-main h1 {
+  font-size: 3.2rem; font-weight: 900; letter-spacing: -2px; line-height: 1.05;
+  margin-bottom: 1.2rem;
+}
+.hero-main h1 .accent { color: var(--accent); }
+.hero-main p { font-size: 1.05rem; color: var(--text-secondary); max-width: 420px; line-height: 1.7; }
+.hero-main .btns { display: flex; gap: 0.8rem; margin-top: 2rem; }
+.hero-main .btns a {
+  padding: 0.7rem 1.6rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600;
+  transition: all 0.2s;
+}
+.hero-main .btn-fill { background: var(--text); color: var(--bg); }
+.hero-main .btn-fill:hover { opacity: 0.85; }
+.hero-main .btn-outline { border: 1.5px solid var(--border); color: var(--text-secondary); }
+.hero-main .btn-outline:hover { border-color: var(--text); color: var(--text); }
+
+/* Status card */
+.status-card { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.status-dot {
+  width: 12px; height: 12px; border-radius: 50%; background: var(--green);
+  margin-bottom: 1rem; position: relative;
+}
+.status-dot::after {
+  content: ''; position: absolute; inset: -4px; border-radius: 50%;
+  border: 2px solid var(--green); opacity: 0.3; animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.5); opacity: 0; } }
+.status-card .label { font-size: 0.8rem; color: var(--text-secondary); }
+.status-card .value { font-size: 1.1rem; font-weight: 700; margin-top: 0.3rem; }
+
+/* Tech card */
+.tech-card { background: var(--text); color: var(--bg); }
+.tech-card h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; margin-bottom: 1rem; }
+.tech-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tech-pills span {
+  padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.75rem; font-weight: 500;
+  background: rgba(255,255,255,0.1); font-family: 'JetBrains Mono', monospace;
+}
+
+/* Section title */
+.section-title {
+  display: flex; justify-content: space-between; align-items: center;
+  margin: 3rem 0 1.5rem;
+}
+.section-title h2 { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; }
+.section-title .badge {
+  font-size: 0.7rem; padding: 0.3rem 0.8rem; border-radius: 50px;
+  font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+}
+
+/* Projects Bento */
+.projects-bento {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1rem;
+}
+.project-wide { grid-column: 1 / 3; }
+.project-card .icon {
+  width: 48px; height: 48px; border-radius: 14px; display: flex;
+  align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.2rem;
+}
+.project-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; letter-spacing: -0.3px; }
+.project-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+.project-card .tech-row { display: flex; gap: 0.4rem; margin-top: 1rem; flex-wrap: wrap; }
+.project-card .tech-row span {
+  font-size: 0.65rem; padding: 0.2rem 0.6rem; border-radius: 6px;
+  background: var(--bg); color: var(--text-secondary); font-weight: 500;
+}
+
+/* Resume Bento */
+.resume-bento {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.resume-card .period {
+  display: inline-block; font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 6px;
+  background: var(--accent-light); color: var(--accent); font-weight: 600; margin-bottom: 0.8rem;
+}
+.resume-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.2rem; }
+.resume-card .company { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+.resume-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; }
+
+.edu-card {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-color: #fcd34d;
+}
+.edu-card .emoji { font-size: 2rem; margin-bottom: 0.8rem; }
+
+/* Blog Bento */
+.blog-bento {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+.blog-featured { grid-column: 1 / 3; grid-row: 1 / 3; display: flex; flex-direction: column; justify-content: flex-end; }
+.blog-featured .category {
+  display: inline-block; font-size: 0.65rem; padding: 0.25rem 0.7rem; border-radius: 50px;
+  background: var(--accent); color: #fff; font-weight: 600; margin-bottom: 0.8rem; width: fit-content;
+}
+.blog-featured h3 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 0.5rem; }
+.blog-featured p { font-size: 0.9rem; color: var(--text-secondary); }
+.blog-featured .date { font-size: 0.75rem; color: var(--text-secondary); margin-top: 1rem; }
+
+.blog-small .date { font-size: 0.7rem; color: var(--accent); font-weight: 600; margin-bottom: 0.5rem; }
+.blog-small h3 { font-size: 0.95rem; font-weight: 700; line-height: 1.3; margin-bottom: 0.4rem; }
+.blog-small p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* Contact Bento */
+.contact-bento {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 4rem;
+}
+.contact-card { text-align: center; cursor: pointer; }
+.contact-card .icon {
+  width: 50px; height: 50px; border-radius: 14px; margin: 0 auto 1rem;
+  display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+}
+.contact-card .label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; }
+.contact-card .value { font-size: 0.85rem; font-weight: 600; }
+
+/* CTA */
+.cta-card {
+  grid-column: 1 / -1;
+  background: var(--text); color: var(--bg); text-align: center;
+  padding: 3rem;
+}
+.cta-card h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+.cta-card p { font-size: 0.9rem; opacity: 0.6; margin-bottom: 1.5rem; }
+.cta-card a {
+  display: inline-block; padding: 0.7rem 2rem; border-radius: 12px;
+  background: var(--accent); color: #fff; font-weight: 600; font-size: 0.9rem;
+  transition: opacity 0.2s;
+}
+.cta-card a:hover { opacity: 0.85; }
+
+/* Footer */
+footer {
+  text-align: center; padding: 2rem; font-size: 0.8rem; color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .bento-hero-grid { grid-template-columns: 1fr; }
+  .hero-main { grid-row: auto; }
+  .hero-main h1 { font-size: 2.2rem; }
+  .projects-bento { grid-template-columns: 1fr; }
+  .project-wide { grid-column: auto; }
+  .resume-bento { grid-template-columns: 1fr; }
+  .blog-bento { grid-template-columns: 1fr; }
+  .blog-featured { grid-column: auto; grid-row: auto; }
+  .contact-bento { grid-template-columns: 1fr 1fr; }
+  nav ul { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">lance<span>.</span></div>
+  <ul>
+    <li><a href="#about">关于</a></li>
+    <li><a href="#projects">项目</a></li>
+    <li><a href="#resume">简历</a></li>
+    <li><a href="#blog">博客</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+  <a href="#contact" class="cta">Say Hello</a>
+</nav>
+
+<div class="container">
+
+<!-- Hero -->
+<section class="hero-bento" id="about">
+  <div class="bento-hero-grid">
+    <div class="card hero-main">
+      <div class="greeting">👋 你好，世界</div>
+      <h1>我是 Lance<span class="accent">.</span><br>全栈开发者</h1>
+      <p>专注于构建高性能的 Web 应用和优雅的用户体验。热爱开源，用代码创造价值。</p>
+      <div class="btns">
+        <a href="#projects" class="btn-fill">查看项目</a>
+        <a href="#contact" class="btn-outline">联系我</a>
+      </div>
+    </div>
+    <div class="card status-card">
+      <div class="status-dot"></div>
+      <div class="label">当前状态</div>
+      <div class="value">开放合作机会</div>
+    </div>
+    <div class="card tech-card">
+      <h3>Tech Stack</h3>
+      <div class="tech-pills">
+        <span>TypeScript</span>
+        <span>React</span>
+        <span>Vue</span>
+        <span>Node.js</span>
+        <span>Go</span>
+        <span>PostgreSQL</span>
+        <span>Docker</span>
+        <span>AWS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<div class="section-title" id="projects">
+  <h2>精选项目</h2>
+  <span class="badge" style="background:var(--accent-light);color:var(--accent);">4 Projects</span>
+</div>
+<div class="projects-bento">
+  <div class="card project-card project-wide">
+    <div class="icon" style="background:var(--blue-light);">🌍</div>
+    <h3>i18n 国际化平台</h3>
+    <p>一站式多语言管理平台，支持团队协作翻译、自动同步和 API 集成。服务超过 20 个项目的国际化需求。</p>
+    <div class="tech-row"><span>React</span><span>Fastify</span><span>PostgreSQL</span><span>Redis</span></div>
+  </div>
+  <div class="card project-card">
+    <div class="icon" style="background:var(--green-light);">📦</div>
+    <h3>Monorepo 模板</h3>
+    <p>全栈 monorepo 模板，集成 CI/CD。</p>
+    <div class="tech-row"><span>pnpm</span><span>Turborepo</span></div>
+  </div>
+  <div class="card project-card">
+    <div class="icon" style="background:var(--purple-light);">🎨</div>
+    <h3>Design System</h3>
+    <p>企业级 React 组件库，50+ 组件。</p>
+    <div class="tech-row"><span>React</span><span>Storybook</span></div>
+  </div>
+  <div class="card project-card">
+    <div class="icon" style="background:var(--accent-light);">⚡</div>
+    <h3>实时分析引擎</h3>
+    <p>高并发数据处理和可视化仪表盘。</p>
+    <div class="tech-row"><span>Go</span><span>ClickHouse</span></div>
+  </div>
+</div>
+
+<!-- Resume -->
+<div class="section-title" id="resume">
+  <h2>工作经历</h2>
+  <span class="badge" style="background:var(--green-light);color:var(--green);">5+ Years</span>
+</div>
+<div class="resume-bento">
+  <div class="card resume-card">
+    <span class="period">2023 — 至今</span>
+    <h3>高级前端工程师</h3>
+    <div class="company">某科技公司</div>
+    <p>负责核心产品前端架构设计，主导微前端改造，性能优化提升 40%。带领 5 人团队完成多个重要项目交付。</p>
+  </div>
+  <div class="card resume-card">
+    <span class="period">2021 — 2023</span>
+    <h3>全栈开发工程师</h3>
+    <div class="company">某互联网公司</div>
+    <p>独立负责多个 B 端产品的全栈开发，设计并实现了公司内部的国际化解决方案。</p>
+  </div>
+  <div class="card resume-card">
+    <span class="period">2019 — 2021</span>
+    <h3>前端开发工程师</h3>
+    <div class="company">某创业公司</div>
+    <p>参与公司核心产品从 0 到 1 的搭建，负责前端技术选型和基础设施建设。</p>
+  </div>
+  <div class="card resume-card edu-card">
+    <div class="emoji">🎓</div>
+    <h3>计算机科学与技术</h3>
+    <div class="company">某大学 · 本科</div>
+    <p>2015 — 2019</p>
+  </div>
+</div>
+
+<!-- Blog -->
+<div class="section-title" id="blog">
+  <h2>最新文章</h2>
+  <span class="badge" style="background:var(--purple-light);color:var(--purple);">Blog</span>
+</div>
+<div class="blog-bento">
+  <div class="card blog-featured">
+    <span class="category">工程化</span>
+    <h3>从零搭建企业级 Monorepo 工程体系</h3>
+    <p>分享如何使用 pnpm + Turborepo 构建高效的 monorepo 开发体验，涵盖依赖管理、构建优化和 CI/CD 集成。</p>
+    <div class="date">2025-12-15</div>
+  </div>
+  <div class="card blog-small">
+    <div class="date">2025-11-08</div>
+    <h3>深入理解 React Server Components</h3>
+    <p>RSC 的工作原理与使用场景。</p>
+  </div>
+  <div class="card blog-small">
+    <div class="date">2025-10-22</div>
+    <h3>TypeScript 类型体操实战</h3>
+    <p>高级类型编程技巧全解析。</p>
+  </div>
+</div>
+
+<!-- Contact -->
+<div class="section-title" id="contact">
+  <h2>联系方式</h2>
+</div>
+<div class="contact-bento">
+  <div class="card contact-card">
+    <div class="icon" style="background:var(--accent-light);">✉️</div>
+    <div class="label">Email</div>
+    <div class="value">[email]@example.com</div>
+  </div>
+  <div class="card contact-card">
+    <div class="icon" style="background:var(--text);color:var(--bg);">🐙</div>
+    <div class="label">GitHub</div>
+    <div class="value">github.com/lance</div>
+  </div>
+  <div class="card contact-card">
+    <div class="icon" style="background:var(--green-light);">💬</div>
+    <div class="label">微信</div>
+    <div class="value">lance_dev</div>
+  </div>
+  <div class="card contact-card">
+    <div class="icon" style="background:var(--blue-light);">📍</div>
+    <div class="label">位置</div>
+    <div class="value">中国 · 深圳</div>
+  </div>
+  <div class="card cta-card">
+    <h3>有想法？聊聊吧</h3>
+    <p>无论是项目合作、技术交流还是随便聊聊，都欢迎</p>
+    <a href="mailto:[email]@example.com">发送邮件 →</a>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  <p>© 2025 Lance. Built with passion.</p>
+</footer>
+
+</body>
+</html>
