@@ -1,9 +1,10 @@
 import { projects } from '@/data/content';
+import { ExternalLinkIcon } from 'lucide-react'
 
 export default function ProjectsSection() {
   return (
     <section id="projects" className="container mx-auto px-6 sm:px-8 lg:px-16 py-20">
-      <div className="text-center mb-12">
+      <div className="mb-12 pt-20 text-center">
         <span className="inline-block text-[0.7rem] font-semibold uppercase tracking-[2px] px-4 py-1.5 rounded-full glass text-purple-400">
           Projects
         </span>
@@ -28,6 +29,27 @@ export default function ProjectsSection() {
                   {tag}
                 </span>
               ))}
+            </div>
+            {p.tips && (
+              <blockquote className="mt-5 border-l-2 border-purple-400/30 pl-5 text-white/35 italic text-[0.85rem] leading-relaxed">
+                {p.tips}
+              </blockquote>
+            )}
+            <div className="flex gap-2 mt-4 absolute top-4 right-4 items-center">
+              {p.github && (
+                <div className="flex items-center gap-2 bg-white/10 hover:bg-white/20 hover:scale-110 p-1 rounded-full transition-all">
+                  <a href={p.github} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                    <img src="static/images/github.svg" alt="GitHub" className="w-4 h-4" />
+                  </a>
+                </div>
+              )}
+              {p.website && (
+                <div className="flex items-center gap-2 bg-white/10 hover:bg-white/20 hover:scale-110 p-1 rounded-full transition-all">
+                  <a href={p.website} target="_blank" rel="noopener noreferrer" className="text-[0.8rem] text-purple-400 font-medium" onClick={(e) => e.stopPropagation()}>
+                    <ExternalLinkIcon className="w-4 h-4" />
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         ))}
