@@ -24,7 +24,7 @@ export default function HeroSection() {
 
       <div className="flex gap-4 mt-10">
         <a
-          href="#projects"
+          href="/projects"
           className="px-8 py-3 rounded-full text-[0.85rem] font-semibold bg-gradient-to-r from-purple-400 to-pink-400 text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(167,139,250,0.3)]"
         >
           探索项目

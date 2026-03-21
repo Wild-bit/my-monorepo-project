@@ -1,6 +1,10 @@
 import { navLinks } from '@/data/content';
+import { cn } from '@/lib/utils';
+import { useLocation } from 'react-router-dom';
 
 export default function Navbar() {
+  const location = useLocation();
+  const isActive = (href: string) => location.pathname === href;
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] px-8 py-3 rounded-full glass flex items-center gap-10">
       <a href="/" className="font-bold text-base text-gradient">Lance</a>
@@ -9,7 +13,7 @@ export default function Navbar() {
           <li key={link.href}>
             <a
               href={link.href}
-              className="text-[0.8rem] text-white/50 font-medium transition-colors hover:text-white"
+              className={cn("text-[0.8rem] text-white/50 font-medium transition-colors hover:text-white", isActive(link.href) && "text-white")}
             >
               {link.label}
             </a>

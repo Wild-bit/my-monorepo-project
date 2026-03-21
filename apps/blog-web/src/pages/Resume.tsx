@@ -30,10 +30,10 @@ export default function ResumeSection() {
       <div className="flex flex-wrap justify-center gap-2.5 mt-8">
         {skills.map((skill) => (
           <span
-            key={skill}
+            key={skill.name}
             className="px-5 py-2 rounded-full text-[0.8rem] font-medium glass transition-all hover:border-[rgba(167,139,250,0.4)] hover:text-purple-400"
           >
-            {skill}
+            {skill.name}
           </span>
         ))}
       </div>

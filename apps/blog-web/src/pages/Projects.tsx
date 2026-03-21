@@ -1,5 +1,6 @@
 import { projects } from '@/data/content';
 import { ExternalLinkIcon } from 'lucide-react'
+import { ImagePreview } from '@/components/ui/image-preview'
 
 export default function ProjectsSection() {
   return (
@@ -17,8 +18,10 @@ export default function ProjectsSection() {
             key={p.title}
             className="glass p-8 transition-all cursor-pointer hover:-translate-y-1 hover:border-[rgba(167,139,250,0.3)]"
           >
-            <div className="text-[2rem] mb-4">{p.emoji}</div>
             <h3 className="text-[1.1rem] font-semibold mb-2">{p.title}</h3>
+            <div className="text-[2rem] mb-4 rounded-lg overflow-hidden">
+              <ImagePreview src={p.preview} alt={p.title} className="w-full h-48 object-cover" />
+            </div>
             <p className="text-[0.85rem] text-white/50 leading-[1.7]">{p.desc}</p>
             <div className="flex flex-wrap gap-1.5 mt-4">
               {p.tags.map((tag) => (

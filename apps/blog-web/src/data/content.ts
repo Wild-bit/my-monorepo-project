@@ -1,3 +1,5 @@
+import { CDN_URL } from './contant';
+
 export const navLinks = [
   { label: '关于我', href: '/about' },
   { label: '项目', href: '/projects' },
@@ -7,16 +9,16 @@ export const navLinks = [
 
 export const projects = [
   {
-    emoji: '🌍',
+    preview: `${CDN_URL}/images/boya.png`,
     title: 'i18n 国际化平台',
     desc: '一站式多语言管理平台，集中管理多语言文案，告别 Excel 混乱时代，在线翻译 & AI 赋能。',
-    tips: '登录即注册 ,可以体验完成功能',
+    tips: '登录即注册 ,可以体验完整功能',
     tags: ['React', 'Fastify', 'PostgreSQL', 'NestJS', 'Ant Design', 'TailwindCSS'],
-    github: 'https://github.com/Wild-bit/my-monorepo-project',
+    github: 'https://github.com/Wild-bit/boya-stack',
     website: 'https://app.boya.fit',
   },
   {
-    emoji: '🔗',
+    preview: `${CDN_URL}/images/nav-preview.png`,
     title: '导航工具网站',
     desc: '导航工具网站，收集各种实用工具以及自定义工具，方便快捷地找到需要的工具。',
     tags: [
@@ -34,16 +36,16 @@ export const projects = [
     github: '',
   },
   {
-    emoji: '👨‍💻',
     title: '个人博客网站',
+    preview: `${CDN_URL}/images/blog.png`,
     desc: '个人博客，记录个人学习历程，分享技术文章，记录生活点滴，记录工作心得。',
     tags: ['React', 'TailwindCSS', 'TypeScript', 'Tencent Cloud Pages', 'Markdown'],
     github: 'https://github.com/Wild-bit/my-monorepo-project/tree/main/apps/blog-web',
     website: 'https://blog.lancespace.club',
   },
   {
-    emoji: '⚡',
     title: '基于Axios 封装的 请求工具 http-client',
+    preview: `${CDN_URL}/images/http-client.png`,
     desc: '类型安全，将相关的 API 定义组织到模块中，使代码结构更清晰、更易于维护。',
     tags: ['TypeScript', 'Axios'],
     github: 'https://github.com/Wild-bit/http-client',

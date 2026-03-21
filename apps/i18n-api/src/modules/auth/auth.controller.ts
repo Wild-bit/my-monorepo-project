@@ -52,7 +52,7 @@ export class AuthController {
     const userAgent = req.headers['user-agent'] || '';
     const result = await this.authService.signIn(data, userAgent);
     res.setCookie('refreshToken', result.refreshToken, {
-      httpOnly: false,
+      httpOnly: process.env.NODE_ENV === 'production',
       secure: process.env.NODE_ENV === 'production',
       maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
       path: 'api/auth/refresh-token',

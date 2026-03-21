@@ -8,6 +8,73 @@
   .glass {
     @apply bg-glass backdrop-blur-[20px] border border-glass-border rounded-2xl;
   }
+
+  /* Markdown 内容样式 */
+  .prose-custom {
+    @apply text-white/80 leading-relaxed;
+    @apply prose-lg max-w-none;
+  }
+
+  /* 自定义 prose-custom 子元素样式 */
+  .prose-custom h1,
+  .prose-custom h2,
+  .prose-custom h3,
+  .prose-custom h4,
+  .prose-custom h5,
+  .prose-custom h6 {
+    @apply text-white scroll-mt-20;
+  }
+
+  .prose-custom h1 { @apply text-[1.8rem] font-bold tracking-tight mt-10 mb-4; }
+  .prose-custom h2 { @apply text-[1.4rem] font-semibold tracking-tight mt-8 mb-3; }
+  .prose-custom h3 { @apply text-[1.15rem] font-semibold mt-6 mb-2; }
+
+  .prose-custom p { @apply text-white/70 my-4; }
+
+  .prose-custom a {
+    @apply text-purple-400 no-underline hover:underline underline-offset-2;
+  }
+
+  .prose-custom ul,
+  .prose-custom ol {
+    @apply text-white/70 my-4 pl-6;
+  }
+
+  .prose-custom li { @apply my-1; }
+
+  .prose-custom blockquote {
+    @apply border-l-2 border-purple-400/30 pl-5 my-5 text-white/50 italic;
+  }
+
+  .prose-custom code:not(pre code) {
+    @apply text-purple-300 bg-white/10 px-1.5 py-0.5 rounded text-[0.85em];
+  }
+
+  .prose-custom pre {
+    @apply bg-[#0d0d1a] border border-white/10 rounded-lg my-6 overflow-x-auto;
+  }
+
+  .prose-custom pre code {
+    @apply text-[0.85rem] leading-relaxed;
+  }
+
+  .prose-custom strong { @apply text-white font-semibold; }
+
+  .prose-custom table {
+    @apply w-full border-collapse my-6 overflow-x-auto;
+  }
+
+  .prose-custom th {
+    @apply border border-white/10 bg-white/5 px-4 py-2 text-left text-[0.85rem] font-medium text-purple-300;
+  }
+
+  .prose-custom td {
+    @apply border border-white/10 px-4 py-2 text-[0.85rem] text-white/70;
+  }
+
+  .prose-custom hr {
+    @apply border-white/10 my-8;
+  }
 }
 
 @layer utilities {
