@@ -2,7 +2,7 @@ import { projects } from '@/data/content';
 
 export default function ProjectsSection() {
   return (
-    <section id="projects" className="max-w-[960px] mx-auto px-8 py-20">
+    <section id="projects" className="container mx-auto px-6 sm:px-8 lg:px-16 py-20">
       <div className="text-center mb-12">
         <span className="inline-block text-[0.7rem] font-semibold uppercase tracking-[2px] px-4 py-1.5 rounded-full glass text-purple-400">
           Projects

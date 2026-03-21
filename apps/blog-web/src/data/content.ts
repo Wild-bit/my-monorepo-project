@@ -1,16 +1,8 @@
 export const navLinks = [
-  { label: '关于我', href: '#about' },
-  { label: '项目', href: '#projects' },
-  { label: '简历', href: '#resume' },
-  { label: '文章', href: '#blog' },
-  { label: '联系', href: '#contact' },
-];
-
-export const stats = [
-  { num: '5+', label: '年经验' },
-  { num: '30+', label: '完成项目' },
-  { num: '10k+', label: '代码提交' },
-  { num: '5k+', label: '博客阅读' },
+  { label: '关于我', href: '/about' },
+  { label: '项目', href: '/projects' },
+  { label: '简历', href: '/resume' },
+  { label: '文章', href: '/blog' },
 ];
 
 export const projects = [
@@ -22,21 +14,21 @@ export const projects = [
   },
   {
     emoji: '👨‍💻',
-    title: '个人博客',
+    title: '个人博客网站',
     desc: '个人博客，记录个人学习历程，分享技术文章，记录生活点滴，记录工作心得。',
     tags: ['React', 'TailwindCSS', 'TypeScript', 'Tencent Cloud Pages', 'Markdown'],
   },
   {
-    emoji: '🎨',
-    title: '组件库 Design System',
-    desc: '企业级 React 组件库，包含 50+ 组件，支持主题定制和无障碍访问。',
-    tags: ['React', 'Storybook', 'CSS-in-JS'],
+    emoji: '🔗',
+    title: '导航工具网站',
+    desc: '导航工具网站，收集各种实用工具以及自定义工具，方便快捷地找到需要的工具。',
+    tags: ['React', 'TailwindCSS', 'TypeScript', 'Next', 'Vercel', 'Supabase'],
   },
   {
     emoji: '⚡',
-    title: '基于 Axios 构建的类型安全、模块化的 HTTP 客户端',
-    desc: '高并发数据处理管道，支持实时聚合分析和可视化仪表盘。',
-    tags: ['Go', 'ClickHouse', 'WebSocket'],
+    title: '基于Axios 封装的 请求工具 request-utils',
+    desc: '类型安全，将相关的 API 定义组织到模块中，使代码结构更清晰、更易于维护。',
+    tags: ['TypeScript', 'Axios'],
   },
 ];
 
@@ -62,20 +54,58 @@ export const experiences = [
 ];
 
 export const skills = [
-  'JavaScript',
-  'TypeScript',
-  'React',
-  'Vue',
-  'Next.js',
-  'Node.js',
-  'Go',
-  'PostgreSQL',
-  'Redis',
-  'Docker',
-  'Kubernetes',
-  'AWS',
-  'CI/CD',
-  'Figma',
+  {
+    name: 'JavaScript',
+    icon: 'static/images/js.svg',
+  },
+  {
+    name: 'TypeScript',
+    icon: 'static/images/ts.svg',
+  },
+  {
+    name: 'React',
+    icon: 'static/images/react.svg',
+  },
+  {
+    name: 'Vue',
+    icon: 'static/images/vue.svg',
+  },
+  {
+    name: 'Next.js',
+    icon: 'static/images/next.svg',
+  },
+  {
+    name: 'Nest.js',
+    icon: 'static/images/nest.svg',
+  },
+  {
+    name: 'Node.js',
+    icon: 'static/images/node.svg',
+  },
+  {
+    name: 'PostgreSQL',
+    icon: 'static/images/pg.svg',
+  },
+  {
+    name: 'Docker',
+    icon: 'static/images/docker.svg',
+  },
+  {
+    name: 'TailwindCSS',
+    icon: 'static/images/tailwindcss.svg',
+  },
+  {
+    name: 'Git',
+    icon: 'static/images/git.svg',
+  },
+  {
+    name: 'Zustand',
+    icon: 'static/images/zustand.svg',
+  },
+  {
+    name: 'pinia',
+    icon: 'static/images/pinia.svg',
+  },
 ];
 
 export const blogPosts = [
@@ -103,7 +133,7 @@ export const blogPosts = [
 
 export const contactLinks = [
   { icon: '✉️', text: 'lzh32534@gmail.com', type: 'email' },
-  { icon: '🐙', text: 'GitHub', type: 'github' },
-  { icon: '💬', text: '微信: lance_dev', type: 'wechat' },
+  { icon: '🐙', text: 'GitHub', type: 'github', link: 'https://github.com/Wild-bit' },
+  { icon: '💬', text: '微信', type: 'wechat' },
   { icon: '📍', text: '中国 · 广州', type: 'location' },
 ];

@@ -1,28 +1,6 @@
-import { useEffect, useState, useRef } from 'react';
-
-interface ContributionDay {
-  date: string;
-  count: number;
-  level: 0 | 1 | 2 | 3 | 4;
-}
-
-interface ContributionWeek {
-  days: ContributionDay[];
-}
-
-interface ApiResponse {
-  total: Record<string, number>;
-  contributions: ContributionDay[];
-}
-
-interface Tooltip {
-  text: string;
-  x: number;
-  y: number;
-}
-
-const GITHUB_USERNAME = 'Wild-bit';
-const API_BASE = 'https://github-contributions-api.jogruber.de/v4';
+import { useEffect, useRef, useState } from 'react';
+import { useContributionStore } from '@/store/contribution';
+import type { ContributionDay, ContributionWeek } from '@/store/contribution';
 
 const LEVEL_COLORS = [
   'rgba(255,255,255,0.06)',
@@ -35,6 +13,14 @@ const LEVEL_COLORS = [
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const DAY_SUFFIXES = ['th', 'st', 'nd', 'rd'] as const;
+
+const GITHUB_USERNAME = 'Wild-bit';
+
+interface Tooltip {
+  text: string;
+  x: number;
+  y: number;
+}
 
 function formatDateLabel(dateStr: string): string {
   const date = new Date(dateStr);
@@ -51,36 +37,6 @@ function formatTooltip(day: ContributionDay): string {
   const label = formatDateLabel(day.date);
   if (day.count === 0) return `No contributions on ${label}.`;
   return `${day.count} contribution${day.count > 1 ? 's' : ''} on ${label}.`;
-}
-
-function groupIntoWeeks(contributions: ContributionDay[]): ContributionWeek[] {
-  const weeks: ContributionWeek[] = [];
-  let currentWeek: ContributionDay[] = [];
-
-  // 第一天补齐到周日开始
-  if (contributions.length > 0) {
-    const firstDay = new Date(contributions[0]!.date).getDay();
-    for (let i = 0; i < firstDay; i++) {
-      currentWeek.push({ date: '', count: 0, level: 0 });
-    }
-  }
-
-  for (const day of contributions) {
-    currentWeek.push(day);
-    if (currentWeek.length === 7) {
-      weeks.push({ days: currentWeek });
-      currentWeek = [];
-    }
-  }
-
-  if (currentWeek.length > 0) {
-    while (currentWeek.length < 7) {
-      currentWeek.push({ date: '', count: 0, level: 0 });
-    }
-    weeks.push({ days: currentWeek });
-  }
-
-  return weeks;
 }
 
 function getMonthLabels(weeks: ContributionWeek[]) {
@@ -100,28 +56,13 @@ function getMonthLabels(weeks: ContributionWeek[]) {
 }
 
 export default function GitHubContributions() {
-  const [weeks, setWeeks] = useState<ContributionWeek[]>([]);
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const { weeks, total, loading, fetchContributions } = useContributionStore();
   const [tooltip, setTooltip] = useState<Tooltip | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const fetchContributions = async () => {
-      try {
-        const res = await fetch(`${API_BASE}/${GITHUB_USERNAME}?y=last`);
-        const data: ApiResponse = await res.json();
-        const grouped = groupIntoWeeks(data.contributions);
-        setWeeks(grouped);
-        setTotal(data.total['lastYear'] ?? 0);
-      } catch {
-        // 静默失败，不显示组件
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchContributions();
-  }, []);
+  }, [fetchContributions]);
 
   if (loading) {
     return (

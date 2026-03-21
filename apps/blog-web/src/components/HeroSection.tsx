@@ -2,7 +2,7 @@ import GitHubContributions from './GitHubContributions';
 
 export default function HeroSection() {
   return (
-    <section id="about" className="max-w-[960px] mx-auto px-8 pt-32 pb-20 flex flex-col items-center text-center">
+    <section id="about" className="container mx-auto px-6 sm:px-8 lg:px-16 pt-32 pb-20 flex flex-col items-center text-center">
       {/* Avatar */}
       <div className="w-[120px] h-[120px] rounded-full bg-gradient-to-r from-purple-400 to-pink-400 p-[3px] mb-8">
         <div className="w-full h-full rounded-full bg-dark flex items-center justify-center text-[2.5rem]">

@@ -7,7 +7,7 @@ import prettierConfig from 'eslint-config-prettier';
 export default tseslint.config(
   // 全局忽略
   {
-    ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/.next/**', '**/*.cjs'],
+    ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/.next/**', '**/*.cjs', '**/vite.config.ts'],
   },
 
   // 基础配置
@@ -60,6 +60,7 @@ export default tseslint.config(
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
     },
+    excludedFiles: ['vite.config.ts'],
   },
 
   // NestJS 后端规则
