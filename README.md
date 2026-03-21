@@ -2,6 +2,9 @@
 
 一个基于 **Monorepo 架构** 的全栈项目，前端使用 React，后端使用 NestJS。
 
+- [i18n 国际化平台](https://app.boya.fit/)
+- [个人博客网站](https://blog.lancespace.club)
+
 ## 📁 项目结构
 
 ```

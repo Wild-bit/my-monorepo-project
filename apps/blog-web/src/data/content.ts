@@ -11,6 +11,8 @@ export const projects = [
     title: 'i18n 国际化平台',
     desc: '一站式多语言管理平台，集中管理多语言文案，告别 Excel 混乱时代，在线翻译 & AI 赋能。',
     tags: ['React', 'Fastify', 'PostgreSQL', 'NestJS', 'Ant Design', 'TailwindCSS'],
+    github: 'https://github.com/Wild-bit/my-monorepo-project',
+    website: 'https://i18n.wild-bit.com',
   },
   {
     emoji: '👨‍💻',
