@@ -27,11 +27,11 @@ export default function AboutMe() {
                 <span className="text-purple-400 font-semibold">赖振航</span>，来自&nbsp;
                 <span className="text-purple-400 font-semibold">中国广州</span>。
                 是一名&nbsp;
-                <span className="text-purple-400 font-semibold">前端开发工程师</span>{' '}
+                <span className="text-purple-400 font-semibold">五年经验的前端开发工程师</span>{' '}
                 专注于现代 Web 应用开发，具备完整的前端到后端全栈项目经验。
               </p>
               <p>
-                本科毕业于&nbsp;
+                <span className="text-purple-400 font-semibold">全日制本科2021年</span>毕业于&nbsp;
                 <span className="text-purple-400 font-semibold">华南理工大学广州学院</span>{' '}
                 <span className="text-purple-400 font-semibold">网络工程</span>{' '}
                 专业。

@@ -20,6 +20,9 @@ export default function Navbar() {
           </li>
         ))}
       </ul>
+      <a href="https://github.com/Wild-bit/boya-stack/tree/main/apps/blog-web" target="_blank" rel="noopener noreferrer" className="text-[0.8rem] hover:scale-110 transition-all text-white/50 font-medium transition-colors hover:text-white">
+        <img src="static/images/github.svg" alt="GitHub" className="w-4 h-4" />
+      </a>
     </nav>
   );
 }

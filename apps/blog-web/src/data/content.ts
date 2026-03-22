@@ -11,7 +11,7 @@ export const projects = [
   {
     preview: `${CDN_URL}/images/boya.png`,
     title: 'i18n 国际化平台',
-    desc: '一站式多语言管理平台，集中管理多语言文案，告别 Excel 混乱时代，在线翻译 & AI 赋能。',
+    desc: '一站式多语言管理平台，集中管理多语言文案，告别 Excel 混乱时代，在线翻译 & AI 赋能，告别手动 Google 翻译，提升本地化效率 10 倍',
     tips: '登录即注册 ,可以体验完整功能',
     tags: ['React', 'Fastify', 'PostgreSQL', 'NestJS', 'Ant Design', 'TailwindCSS'],
     github: 'https://github.com/Wild-bit/boya-stack',
@@ -54,22 +54,90 @@ export const projects = [
 
 export const experiences = [
   {
-    period: '2023 — 至今',
+    period: '2024.03 — 2025.12',
     title: '高级前端工程师',
-    company: '某科技公司',
-    desc: '负责核心产品前端架构设计，主导微前端改造，性能优化提升 40%。带领 5 人团队完成多个重要项目交付。',
+    company: '深圳起量加信息技术科技有限公司',
+    desc: [
+      '负责 Deepclick（广告转化优化平台）与 Roibest（PWA 安装服务平台）的前端开发',
+      '主导前端基础设施建设与工程化能力沉淀，通过平台化与工具化手段提升多项目开发效率与可维护性',
+    ],
+    highlights: [
+      {
+        title: 'i18n 国际化管理平台',
+        tag: '架构设计',
+        items: [
+          '从 0 到 1 设计并实现一站式多语言（i18n）管理平台，解决多项目、多语言文案分散管理问题，提升文案管理规范性与协作效率',
+          '技术栈：React + NestJS + PostgreSQL + Fastify，采用前后端分离架构',
+          '基于 GitHub Actions 实现自动化部署流程，并结合 PM2 进行服务进程管理，保障系统稳定运行',
+          '集中文案管理，支持多项目接入及 JSON 导入导出，提升文案维护一致性与协作效率',
+          '接入 Qwen-plus 模型实现 AI 翻译能力，提升多语言本地化效率约 10 倍',
+        ],
+      },
+      {
+        title: '导航工具平台',
+        tag: '全栈开发',
+        items: [
+          '搭建内部导航工具网站，集成常用开发工具、公司产品链接（区分正式服，测试服，网站资源等）',
+          '技术栈：Next.js + Supabase + shadcn/ui + TailwindCSS',
+          '实现自定义URL解析功能，解析URL中的参数工具',
+        ],
+      },
+      {
+        title: 'PWA SDK 与基础设施',
+        tag: '重点亮点',
+        items: [
+          '为 Deepclick 平台设计并开发 PWA SDK，提供 Service Worker、Manifest.json 自动生成能力',
+          '封装常用工具函数库，通过 Verdaccio 搭建私有 npm 仓库，实现跨项目复用',
+          '提供离线缓存策略、推送通知、安装引导等开箱即用的 PWA 能力',
+          '支持多种缓存策略（CacheFirst、NetworkFirst、StaleWhileRevalidate），可配置化管理',
+        ],
+      },
+    ],
   },
   {
-    period: '2021 — 2023',
-    title: '全栈开发工程师',
-    company: '某互联网公司',
-    desc: '独立负责多个 B 端产品的全栈开发，设计并实现了公司内部的国际化解决方案。',
-  },
-  {
-    period: '2019 — 2021',
+    period: '2021.04 — 2024.01',
     title: '前端开发工程师',
-    company: '某创业公司',
-    desc: '参与公司核心产品从 0 到 1 的搭建，负责前端技术选型和基础设施建设。',
+    company: '广州点云科技有限公司',
+    desc: [
+      '负责云游戏平台 Web 端及 App 内嵌 H5 活动页以及常驻页的业务开发',
+      '主导前端性能优化、Hybrid（JSBridge）通信能力建设及工程化工具链优化',
+    ],
+    highlights: [
+      {
+        title: '性能优化体系建设',
+        tag: '重点强化',
+        items: [
+          '主导 H5 页面性能优化，建立基于数据指标的优化方案（FCP / LCP / 资源体积）',
+          '通过 webpack-bundle-analyzer 分析依赖体积，推动第三方库拆分与按需加载',
+          '使用 externals + CDN 引入（vue / vue-router / SDK），显著降低主包体积',
+          '优化资源加载策略（图片 WebP 转换、资源压缩等）',
+        ],
+        metrics: [
+          { label: '包体积', before: '81.78KB', after: '53.06KB', improvement: '↓35%' },
+          { label: 'FCP', before: '2.86s', after: '1.59s', improvement: '↓44%' },
+          { label: 'LCP', before: '3.15s', after: '1.79s', improvement: '↓43%' },
+        ],
+      },
+      {
+        title: 'Hybrid 架构',
+        tag: '重点亮点',
+        items: [
+          '主导 App 内嵌 H5（WebView）业务开发，设计并实现 JSBridge 通信机制，打通 H5 与客户端能力',
+          '支持能力包括：登录态获取、埋点上报、原生组件调用、UI 控制（隐藏标题栏等）',
+          '构建统一调用封装层，降低业务侧接入成本，提高开发效率与稳定性',
+        ],
+      },
+      {
+        title: 'Vue 项目脚手架：shedcli',
+        tag: '重点亮点',
+        items: [
+          '支持 Vue2 和 Vue3 双版本',
+          '插件化功能选择：API 域名、路由、状态管理、国际化',
+          '交互式命令行体验',
+          '基于 AST 的智能代码生成',
+        ],
+      },
+    ],
   },
 ];
 
@@ -129,8 +197,13 @@ export const skills = [
 ];
 
 export const contactLinks = [
-  { icon: '✉️', text: 'lzh32534@gmail.com', type: 'email' },
-  { icon: '🐙', text: 'GitHub', type: 'github', link: 'https://github.com/Wild-bit' },
-  { icon: '💬', text: '微信', type: 'wechat' },
-  { icon: '📍', text: '中国 · 广州', type: 'location' },
+  { emoji: '✉️', text: 'lzh32534@gmail.com', type: 'email' },
+  {
+    icon: 'static/images/github.svg',
+    text: 'GitHub',
+    type: 'github',
+    link: 'https://github.com/Wild-bit',
+  },
+  { emoji: '💬', text: '微信', type: 'wechat' },
+  { emoji: '📍', text: '中国 · 广州', type: 'location' },
 ];

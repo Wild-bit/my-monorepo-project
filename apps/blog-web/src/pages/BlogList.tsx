@@ -28,7 +28,7 @@ export default function BlogList() {
   }, [activeCategory]);
 
   return (
-    <div className="relative z-[1] container mx-auto px-6 sm:px-8 lg:px-16 pt-32 pb-20">
+    <div className="relative z-[1] container mx-auto px-6 sm:px-8 lg:px-16 pt-40 pb-20">
       {/* 页面标题 */}
       <div className="text-center mb-12">
         <span className="inline-block text-[0.7rem] font-semibold uppercase tracking-[2px] px-4 py-1.5 rounded-full glass text-purple-400">

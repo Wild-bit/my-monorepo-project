@@ -6,7 +6,8 @@ import nestjsGuide from '@/content/blog/solution-for-achieving-seamless-refresh.
 import axiosHttpClientGuide from '@/content/blog/axios-http-client.md?raw';
 import teamInviteDesign from '@/content/blog/team-invite-design.md?raw';
 import i18nKeyTrie from '@/content/blog/i18n-key-trie.md?raw';
-
+import shedcli from '@/content/blog/shedcli.md?raw';
+import jsbridge from '@/content/blog/jsbridge.md?raw';
 export interface BlogPost {
   slug: string;
   date: string;
@@ -79,6 +80,24 @@ export const blogPosts: BlogPost[] = [
     desc: '如何设计一个可靠的实时通信系统，处理断线重连和消息可靠性。',
     content: websocketGuide,
     tags: ['WebSocket', '实时通信', '架构设计'],
+    category: 'JavaScript',
+  },
+  {
+    slug: 'shedcli',
+    date: '2023-03-22',
+    title: '基于Vue项目的脚手架工具shedcli',
+    desc: '从零打造一个 Vue 项目脚手架：我的实践与思考',
+    content: shedcli,
+    tags: ['shedcli', '脚手架', 'Vue'],
+    category: 'Vue',
+  },
+  {
+    slug: 'jsbridge',
+    date: '2023-04-22',
+    title: 'H5 与客户端通信机制：JSBridge 实战',
+    desc: '分享如何使用 JSBridge 通信机制。',
+    content: jsbridge,
+    tags: ['JSBridge', '通信机制'],
     category: 'JavaScript',
   },
   {

@@ -22,7 +22,7 @@ export default function ContactSection() {
             <HoverCard key={c.text} openDelay={200} closeDelay={100}>
               <HoverCardTrigger asChild>
                 <span className={linkClass}>
-                  <span className="text-[1.1rem]">{c.icon}</span>
+                  {c.emoji && <span className="text-[1.1rem]">{c.emoji}</span>}
                   {c.text}
                 </span>
               </HoverCardTrigger>
@@ -42,7 +42,8 @@ export default function ContactSection() {
               target={c.link ? '_blank' : undefined}
               className={linkClass}
             >
-              <span className="text-[1.1rem]">{c.icon}</span>
+              {c.icon && <img src={c.icon} alt={c.text} className="w-4 h-4" />}
+              {c.emoji && <span className="text-[1.1rem]">{c.emoji}</span>}
               {c.text}
             </a>
           ),
