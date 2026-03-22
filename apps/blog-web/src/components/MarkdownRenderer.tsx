@@ -5,6 +5,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import type { Components } from 'react-markdown';
+import GithubSlugger from 'github-slugger';
 
 interface MarkdownRendererProps {
   content: string;
@@ -174,16 +175,13 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
 export function extractHeadings(content: string): { id: string; text: string; level: number }[] {
   const headingRegex = /^(#{1,6})\s+(.+)$/gm;
   const headings: { id: string; text: string; level: number }[] = [];
+  const slugger = new GithubSlugger();
 
   let match: RegExpExecArray | null;
   while ((match = headingRegex.exec(content)) !== null) {
     const level = match[1]?.length ?? 1;
     const text = match[2]?.trim() ?? '';
-    // 生成 slug id（与 rehype-slug 保持一致）
-    const id = text
-      .toLowerCase()
-      .replace(/[^\w\u4e00-\u9fa5]+/g, '-')
-      .replace(/^-+|-+$/g, '');
+    const id = slugger.slug(text);
 
     headings.push({ id, text, level });
   }

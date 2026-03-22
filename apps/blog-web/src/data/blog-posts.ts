@@ -8,6 +8,8 @@ import teamInviteDesign from '@/content/blog/team-invite-design.md?raw';
 import i18nKeyTrie from '@/content/blog/i18n-key-trie.md?raw';
 import shedcli from '@/content/blog/shedcli.md?raw';
 import jsbridge from '@/content/blog/jsbridge.md?raw';
+import claudeCodeSkills from '@/content/blog/claude-code-skills.md?raw';
+import claudeCodeMcpVsSkills from '@/content/blog/claude-code-mcp-vs-skills.md?raw';
 export interface BlogPost {
   slug: string;
   date: string;
@@ -19,6 +21,24 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: 'claude-code-mcp-vs-skills',
+    date: '2026-02-25',
+    title: 'Claude Code 中 MCP 与 Skills 的区别：选对工具，事半功倍',
+    desc: '理清 MCP 和 Skills 的定位差异，推荐实用的 MCP Server，以及如何组合使用发挥最大效果。',
+    content: claudeCodeMcpVsSkills,
+    tags: ['Claude Code', 'MCP', 'Skills'],
+    category: '工程化',
+  },
+  {
+    slug: 'claude-code-skills',
+    date: '2026-03-10',
+    title: 'Claude Code Skills 实用指南：提升你的 AI 编程效率',
+    desc: '深入介绍 Claude Code 的 Skills 机制，推荐实用的内置 Skills 和社区 Skills，以及如何创建自定义 Skill。',
+    content: claudeCodeSkills,
+    tags: ['Claude Code', 'AI', 'Skills'],
+    category: '工程化',
+  },
   {
     slug: 'i18n-key-trie',
     date: '2026-03-22',
