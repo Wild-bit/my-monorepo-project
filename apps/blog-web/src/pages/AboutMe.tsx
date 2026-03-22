@@ -39,7 +39,7 @@ export default function AboutMe() {
               <p>
                 目前正在积极寻找新的前端或全栈开发岗位机会。
               </p>
-              <p>在个人技术成长方面，我持续通过开源项目提升工程能力，目前维护了两个完整的全栈项目：<span className="text-purple-400 font-semibold">多语言 i18n 管理平台</span>和<span className="text-purple-400 font-semibold">开发者导航工具平台</span>，以及 <span className="text-purple-400 font-semibold">个人博客网站</span>，这些项目帮助我积累了丰富的项目经验和技术能力。</p>
+              <p>在个人技术成长方面，持续关注 AI 技术发展，并结合 <span className="text-purple-400 font-semibold">Claude Code、Cursor</span> 等工具应用于开发实践，提升代码生成、调试与问题排查效率，同时通过开源项目提升工程能力，目前维护了两个完整的全栈项目：<span className="text-purple-400 font-semibold">多语言 i18n 管理平台</span>和<span className="text-purple-400 font-semibold">开发者导航工具平台</span>，以及 <span className="text-purple-400 font-semibold">个人博客网站</span>，这些项目帮助我积累了丰富的项目经验和技术能力。</p>
               <p>希望能够加入一个技术氛围良好的团队，持续提升工程能力并创造实际业务价值。</p>
               <p className="text-white/50">工作之余，我喜欢做一些让自己保持创造力的事情：</p>
             </div>

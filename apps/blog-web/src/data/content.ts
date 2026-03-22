@@ -86,10 +86,10 @@ export const experiences = [
         title: 'PWA SDK 与基础设施',
         tag: '重点亮点',
         items: [
-          '为 Deepclick 平台设计并开发 PWA SDK，提供 Service Worker、Manifest.json 自动生成能力',
-          '封装常用工具函数库，通过 Verdaccio 搭建私有 npm 仓库，实现跨项目复用',
-          '提供离线缓存策略、推送通知、安装引导等开箱即用的 PWA 能力',
-          '支持多种缓存策略（CacheFirst、NetworkFirst、StaleWhileRevalidate），可配置化管理',
+          '为 Deepclick 平台设计并开发 PWA SDK，统一封装 Service Worker 生命周期与 Manifest 配置，降低业务接入成本',
+          '基于 Verdaccio 搭建私有 npm 仓库，沉淀通用工具库与 PWA 能力模块，实现跨项目复用与版本管理',
+          '封装静态资源缓存能力（基于 Workbox 实现），针对图片等资源采用 Stale-While-Revalidate 策略，并结合过期与容量控制优化缓存生命周期，支持弱网或离线场景下已缓存资源访问',
+          '提供推送通知与应用安装引导能力，提升 Web 应用可达性与用户体验',
         ],
       },
     ],
@@ -119,12 +119,12 @@ export const experiences = [
         ],
       },
       {
-        title: 'Hybrid 架构',
+        title: 'Hybrid 架构（WebView + JSBridge）',
         tag: '重点亮点',
         items: [
-          '主导 App 内嵌 H5（WebView）业务开发，设计并实现 JSBridge 通信机制，打通 H5 与客户端能力',
-          '支持能力包括：登录态获取、埋点上报、原生组件调用、UI 控制（隐藏标题栏等）',
-          '构建统一调用封装层，降低业务侧接入成本，提高开发效率与稳定性',
+          '主导 App 内嵌 H5（WebView）业务开发，设计并实现 JSBridge 通信机制，实现 H5 与原生能力交互',
+          '封装统一 Bridge 调用层，规范 H5 与客户端通信方式，降低业务侧接入复杂度',
+          '支持登录态获取、埋点上报、原生组件调用及 UI 控制（如标题栏控制）等核心能力',
         ],
       },
       {
