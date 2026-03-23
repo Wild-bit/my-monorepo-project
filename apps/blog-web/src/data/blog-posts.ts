@@ -10,6 +10,7 @@ import shedcli from '@/content/blog/shedcli.md?raw';
 import jsbridge from '@/content/blog/jsbridge.md?raw';
 import claudeCodeSkills from '@/content/blog/claude-code-skills.md?raw';
 import claudeCodeMcpVsSkills from '@/content/blog/claude-code-mcp-vs-skills.md?raw';
+import nextJsConceptsAndPractices from '@/content/blog/next-js-concepts-and-practices.md?raw';
 export interface BlogPost {
   slug: string;
   date: string;
@@ -22,13 +23,22 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'next-js-concepts-and-practices',
+    date: '2026-03-23',
+    title: 'Next.js 相关概念与实践',
+    desc: 'Next.js 相关概念与实践',
+    content: nextJsConceptsAndPractices,
+    tags: ['Next.js', 'SSG', 'ISR', 'SSR'],
+    category: 'NextJS',
+  },
+  {
     slug: 'claude-code-mcp-vs-skills',
     date: '2026-02-25',
     title: 'Claude Code 中 MCP 与 Skills 的区别：选对工具，事半功倍',
     desc: '理清 MCP 和 Skills 的定位差异，推荐实用的 MCP Server，以及如何组合使用发挥最大效果。',
     content: claudeCodeMcpVsSkills,
     tags: ['Claude Code', 'MCP', 'Skills'],
-    category: '工程化',
+    category: 'AI',
   },
   {
     slug: 'claude-code-skills',
@@ -37,7 +47,7 @@ export const blogPosts: BlogPost[] = [
     desc: '深入介绍 Claude Code 的 Skills 机制，推荐实用的内置 Skills 和社区 Skills，以及如何创建自定义 Skill。',
     content: claudeCodeSkills,
     tags: ['Claude Code', 'AI', 'Skills'],
-    category: '工程化',
+    category: 'AI',
   },
   {
     slug: 'i18n-key-trie',
