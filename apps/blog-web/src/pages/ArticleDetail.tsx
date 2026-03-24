@@ -1,14 +1,15 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, Calendar, Tag } from 'lucide-react';
-import { getBlogPostBySlug } from '@/data/blog-posts';
+import { getBlogPostBySlug, getInterviewExperienceBySlug } from '@/data/blog-posts';
 import { MarkdownRenderer, extractHeadings } from '@/components/MarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
 
 export default function ArticleDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const isInterview = useLocation().pathname.includes('/interview');
 
-  const post = slug ? getBlogPostBySlug(slug) : undefined;
+  const post = slug ? isInterview ? getInterviewExperienceBySlug(slug) : getBlogPostBySlug(slug) : undefined;
 
   if (!post) {
     return (

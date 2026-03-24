@@ -7,6 +7,7 @@ import BlogList from '@/pages/BlogList';
 import ArticleDetail from '@/pages/ArticleDetail';
 import BackgroundOrbs from '@/components/BackgroundOrbs';
 import Navbar from '@/components/Navbar';
+import InterviewPost from '@/pages/InterviewPost';
 
 export default function App() {
   return (
@@ -20,6 +21,8 @@ export default function App() {
         <Route path="/resume" element={<Resume />} />
         <Route path="/blog" element={<BlogList />} />
         <Route path="/blog/:slug" element={<ArticleDetail />} />
+        <Route path="/interview" element={<InterviewPost />} />
+        <Route path="/interview/:slug" element={<ArticleDetail />} />
       </Routes>
     </BrowserRouter>
   );

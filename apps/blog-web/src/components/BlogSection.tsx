@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function BlogSection() {
-  const recentBlogPosts = blogPosts.sort((a, b) => dayjs(b.date).diff(dayjs(a.date))).slice(0, 3);
+  const recentBlogPosts = blogPosts.sort((a, b) => dayjs(b.date).diff(dayjs(a.date))).slice(0, 6);
   const navigate = useNavigate();
   return (
     <section id="blog" className="container mx-auto px-6 sm:px-8 lg:px-16 py-20">

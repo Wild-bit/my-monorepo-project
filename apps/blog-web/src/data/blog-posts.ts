@@ -11,6 +11,7 @@ import jsbridge from '@/content/blog/jsbridge.md?raw';
 import claudeCodeSkills from '@/content/blog/claude-code-skills.md?raw';
 import claudeCodeMcpVsSkills from '@/content/blog/claude-code-mcp-vs-skills.md?raw';
 import nextJsConceptsAndPractices from '@/content/blog/next-js-concepts-and-practices.md?raw';
+import guangzhouInterviewPreparation from '@/content/interview-experiences/guangzhou-interview-preparation.md?raw';
 export interface BlogPost {
   slug: string;
   date: string;
@@ -20,6 +21,18 @@ export interface BlogPost {
   tags?: string[];
   category?: string;
 }
+
+export const interviewExperiences: BlogPost[] = [
+  {
+    slug: 'guangzhou-interview-preparation',
+    date: '2026-03-24',
+    title: '广州面试准备',
+    desc: '广州面试准备',
+    content: guangzhouInterviewPreparation,
+    tags: ['面试', '广州', '准备'],
+    category: '面试',
+  },
+];
 
 export const blogPosts: BlogPost[] = [
   {
@@ -143,4 +156,8 @@ export const blogPosts: BlogPost[] = [
 
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {
   return blogPosts.find((post) => post.slug === slug);
+}
+
+export function getInterviewExperienceBySlug(slug: string): BlogPost | undefined {
+  return interviewExperiences.find((post) => post.slug === slug);
 }
