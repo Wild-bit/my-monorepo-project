@@ -12,6 +12,8 @@ import claudeCodeSkills from '@/content/blog/claude-code-skills.md?raw';
 import claudeCodeMcpVsSkills from '@/content/blog/claude-code-mcp-vs-skills.md?raw';
 import nextJsConceptsAndPractices from '@/content/blog/next-js-concepts-and-practices.md?raw';
 import guangzhouInterviewPreparation from '@/content/interview-experiences/guangzhou-interview-preparation.md?raw';
+import aiConceptsTranslationIntegration from '@/content/interview-experiences/ai-concepts-translation-integration.md?raw';
+import reactCorePrinciples from '@/content/interview-experiences/react-core-principles.md?raw';
 export interface BlogPost {
   slug: string;
   date: string;
@@ -23,6 +25,24 @@ export interface BlogPost {
 }
 
 export const interviewExperiences: BlogPost[] = [
+  {
+    slug: 'react-core-principles',
+    date: '2026-03-24',
+    title: 'React 核心原理整理',
+    desc: 'React 核心原理整理',
+    content: reactCorePrinciples,
+    tags: ['React', '核心原理', '整理'],
+    category: 'React',
+  },
+  {
+    slug: 'ai-concepts-translation-integration',
+    date: '2026-03-24',
+    title: 'AI 核心概念整理',
+    desc: 'AI 核心概念整理',
+    content: aiConceptsTranslationIntegration,
+    tags: ['AI', '概念', '整理'],
+    category: 'AI',
+  },
   {
     slug: 'guangzhou-interview-preparation',
     date: '2026-03-24',
